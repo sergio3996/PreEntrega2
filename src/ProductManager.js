@@ -44,7 +44,11 @@ class ProductManager {
           };
 
           this.products.push(newProduct);
-          fs.writeFileSync(this.path, JSON.stringify(this.products), "utf8");
+          fs.writeFileSync(
+            this.path,
+            JSON.stringify(this.products, null, 2),
+            "utf8"
+          );
           console.log("El archivo se ha escrito correctamente.");
         }
       }
@@ -61,7 +65,7 @@ class ProductManager {
       if (productFound) {
         return productFound;
       } else {
-        console.error("Producto no encontrado");
+        throw new Error("El producto no existe");
       }
     } catch (error) {
       console.error(error);
@@ -113,14 +117,15 @@ class ProductManager {
 
 module.exports = ProductManager;
 
+// const productManagerInstance = new ProductManager();
 // AGREGAR PRODUCTO
 
 // productManagerInstance.addProduct(
-//   "producto prueba",
-//   "Este es un producto prueba",
+//   "producto prueba1",
+//   "Este es un producto prueba1",
 //   20010,
 //   "Sin imagen",
-//   "abc123",
+//   "abc12312312tt",
 //   25
 // );
 
@@ -129,7 +134,7 @@ module.exports = ProductManager;
 //   "Este es un producto prueba2",
 //   2002,
 //   "Sin imagen",
-//   "abc1234",
+//   "abc1234dfdafv",
 //   25
 // );
 
@@ -138,7 +143,65 @@ module.exports = ProductManager;
 //   "Este es un producto prueba3",
 //   2005,
 //   "Sin imagen",
-//   "abc12345",
+//   "abc12345345gz",
+//   25
+// );
+
+// productManagerInstance.addProduct(
+//   "producto prueba4",
+//   "Este es un producto prueba4",
+//   2005,
+//   "Sin imagen",
+//   "abc12345345gx",
+//   25
+// );
+
+// productManagerInstance.addProduct(
+//   "producto prueba5",
+//   "Este es un producto prueba5",
+//   2005,
+//   "Sin imagen",
+//   "abc12345345gw",
+//   25
+// );
+// productManagerInstance.addProduct(
+//   "producto prueba6",
+//   "Este es un producto prueba6",
+//   2005,
+//   "Sin imagen",
+//   "abc12345345ge",
+//   25
+// );
+// productManagerInstance.addProduct(
+//   "producto prueba7",
+//   "Este es un producto prueba7",
+//   2005,
+//   "Sin imagen",
+//   "abc12345345gu",
+//   25
+// );
+// productManagerInstance.addProduct(
+//   "producto prueba8",
+//   "Este es un producto prueba8",
+//   2005,
+//   "Sin imagen",
+//   "abc12345345gb",
+//   25
+// );
+// productManagerInstance.addProduct(
+//   "producto prueba9",
+//   "Este es un producto prueba9",
+//   2005,
+//   "Sin imagen",
+//   "abc12345345gd",
+//   25
+// );
+// productManagerInstance.addProduct(
+//   "producto prueba10",
+//   "Este es un producto prueba10",
+//   2005,
+//   "Sin imagen",
+//   "abc12345345ga",
 //   25
 // );
 

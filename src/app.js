@@ -15,16 +15,20 @@ app.get("/products", (req, res) => {
   let limit = req.query.limit;
   if (limit) {
     let productsLimited = products.slice(0, parseInt(limit));
-    res.send(productsLimited);
+    res.status(200).json(productsLimited);
   } else {
-    res.send(products);
+    res.status(200).json(products);
   }
 });
 
 app.get("/products/:pid", async (req, res) => {
   try {
     const product = await ProductManagerInstance.getProductById(req.params.pid);
-    res.send(product);
+    if (product) {
+      res.status(200).json(product);
+    } else {
+      res.status(404).json({ Error: "Ese producto no existe" });
+    }
   } catch (error) {
     console.error(error);
   }
