@@ -21,16 +21,33 @@ class ProductManager {
     return Math.random().toString(36).slice(2, 11);
   }
 
-  async addProduct(title, description, price, thumbnail, code, stock) {
+  async addProduct(
+    title,
+    description,
+    price,
+    thumbnail,
+    code,
+    stock,
+    status = true,
+    category
+  ) {
     try {
       await this.getProducts();
 
       const duplicate = this.products.find((item) => item.code === code);
-      if (!title || !description || !price || !thumbnail || !code || !stock) {
+      if (
+        !title ||
+        !description ||
+        !price ||
+        !thumbnail ||
+        !code ||
+        !stock ||
+        !category
+      ) {
         console.error("Debe rellenar todos los campos");
       } else {
         if (duplicate) {
-          console.error("Ya existe un producto con ese código");
+          throw new Error("Ya existe un producto con ese código");
         } else {
           const uniqueId = this.generateProductId();
           const newProduct = {
@@ -41,6 +58,8 @@ class ProductManager {
             thumbnail,
             code,
             stock,
+            status,
+            category,
           };
 
           this.products.push(newProduct);
@@ -86,7 +105,11 @@ class ProductManager {
           }
         }
         this.products[productIndex] = updatedProduct;
-        fs.writeFileSync(this.path, JSON.stringify(this.products), "utf8");
+        fs.writeFileSync(
+          this.path,
+          JSON.stringify(this.products, null, 2),
+          "utf8"
+        );
         console.log("Producto actualizado correctamente.");
       } else {
         console.log("Producto no encontrado");
@@ -104,7 +127,11 @@ class ProductManager {
 
       if (productIndex !== -1) {
         this.products.splice(productIndex, 1);
-        fs.writeFileSync(this.path, JSON.stringify(this.products), "utf8");
+        fs.writeFileSync(
+          this.path,
+          JSON.stringify(this.products, null, 2),
+          "utf8"
+        );
         console.log("Producto eliminado correctamente");
       } else {
         console.log("Producto no encontrado");
@@ -126,7 +153,9 @@ module.exports = ProductManager;
 //   20010,
 //   "Sin imagen",
 //   "abc12312312tt",
-//   25
+//   25,
+//   true,
+//   "Sincategoria"
 // );
 
 // productManagerInstance.addProduct(
@@ -135,7 +164,9 @@ module.exports = ProductManager;
 //   2002,
 //   "Sin imagen",
 //   "abc1234dfdafv",
-//   25
+//   25,
+//   true,
+//   "Sincategoria"
 // );
 
 // productManagerInstance.addProduct(
@@ -144,7 +175,9 @@ module.exports = ProductManager;
 //   2005,
 //   "Sin imagen",
 //   "abc12345345gz",
-//   25
+//   25,
+//   true,
+//   "Sincategoria"
 // );
 
 // productManagerInstance.addProduct(
@@ -153,7 +186,9 @@ module.exports = ProductManager;
 //   2005,
 //   "Sin imagen",
 //   "abc12345345gx",
-//   25
+//   25,
+//   true,
+//   "Sincategoria"
 // );
 
 // productManagerInstance.addProduct(
@@ -162,7 +197,9 @@ module.exports = ProductManager;
 //   2005,
 //   "Sin imagen",
 //   "abc12345345gw",
-//   25
+//   25,
+//   true,
+//   "Sincategoria"
 // );
 // productManagerInstance.addProduct(
 //   "producto prueba6",
@@ -170,7 +207,9 @@ module.exports = ProductManager;
 //   2005,
 //   "Sin imagen",
 //   "abc12345345ge",
-//   25
+//   25,
+//   true,
+//   "Sincategoria"
 // );
 // productManagerInstance.addProduct(
 //   "producto prueba7",
@@ -178,7 +217,9 @@ module.exports = ProductManager;
 //   2005,
 //   "Sin imagen",
 //   "abc12345345gu",
-//   25
+//   25,
+//   true,
+//   "Sincategoria"
 // );
 // productManagerInstance.addProduct(
 //   "producto prueba8",
@@ -186,7 +227,9 @@ module.exports = ProductManager;
 //   2005,
 //   "Sin imagen",
 //   "abc12345345gb",
-//   25
+//   25,
+//   true,
+//   "Sincategoria"
 // );
 // productManagerInstance.addProduct(
 //   "producto prueba9",
@@ -194,7 +237,9 @@ module.exports = ProductManager;
 //   2005,
 //   "Sin imagen",
 //   "abc12345345gd",
-//   25
+//   25,
+//   true,
+//   "Sincategoria"
 // );
 // productManagerInstance.addProduct(
 //   "producto prueba10",
@@ -202,7 +247,9 @@ module.exports = ProductManager;
 //   2005,
 //   "Sin imagen",
 //   "abc12345345ga",
-//   25
+//   25,
+//   true,
+//   "Sincategoria"
 // );
 
 // console.log(productManagerInstance.getProducts());
