@@ -97,19 +97,5 @@
     "stock": 25,
     "status": true,
     "category": "Sincategoria"
-  },
-  {
-    "id": "j2th7i0mt",
-    "title": "PRODUCTO AGREGADO CON POST2",
-    "description": "PRODUCTO AGREGADO CON POST2",
-    "price": 1234,
-    "thumbnail": [
-      "Imagen1",
-      "Imagen2"
-    ],
-    "code": "asdb2323",
-    "stock": 5,
-    "status": true,
-    "category": "PRODUCTO NUEVO2"
   }
 ]

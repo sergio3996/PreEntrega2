@@ -1,4 +1,4 @@
-const fs = require("fs");
+import * as fs from "fs";
 
 class CartManager {
   constructor() {
@@ -74,7 +74,7 @@ class CartManager {
   }
 }
 
-module.exports = CartManager;
+export default CartManager;
 
 // const newInstance = new CartManager();
 

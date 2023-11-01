@@ -1,5 +1,5 @@
-const { Router } = require("express");
-const CartManager = require("../CartManager");
+import { Router } from "express";
+import CartManager from "../CartManager.js";
 
 const router = Router();
 const CartManagerInstance = new CartManager();
@@ -25,4 +25,4 @@ router.post("/:cid/product/:pid", (req, res) => {
   res.status(201).json({ message: "Producto agregado correctamente!" });
 });
 
-module.exports = router;
+export default router;

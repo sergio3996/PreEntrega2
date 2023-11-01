@@ -1,5 +1,4 @@
-const fs = require("fs");
-
+import * as fs from "fs";
 class ProductManager {
   constructor() {
     this.products = [];
@@ -142,7 +141,7 @@ class ProductManager {
   }
 }
 
-module.exports = ProductManager;
+export default ProductManager;
 
 // const productManagerInstance = new ProductManager();
 // AGREGAR PRODUCTO
