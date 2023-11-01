@@ -97,5 +97,16 @@
     "stock": 25,
     "status": true,
     "category": "Sincategoria"
+  },
+  {
+    "id": "jln2xyc3k",
+    "title": "producto prueba11",
+    "description": "Este es un producto prueba1",
+    "price": 20010,
+    "thumbnail": "Sin imagen",
+    "code": "abc12312312tteee",
+    "stock": 25,
+    "status": true,
+    "category": "Sincategoria"
   }
 ]

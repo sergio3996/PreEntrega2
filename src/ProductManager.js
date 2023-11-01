@@ -147,11 +147,11 @@ export default ProductManager;
 // AGREGAR PRODUCTO
 
 // productManagerInstance.addProduct(
-//   "producto prueba1",
+//   "producto prueba112",
 //   "Este es un producto prueba1",
 //   20010,
 //   "Sin imagen",
-//   "abc12312312tt",
+//   "abc12312312tteeeeeee",
 //   25,
 //   true,
 //   "Sincategoria"
