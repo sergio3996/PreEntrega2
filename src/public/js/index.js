@@ -28,7 +28,7 @@ addProductform.addEventListener("submit", (e) => {
   fetch("/api/products", {
     method: "POST",
     headers: {
-      "Content-Type": "application/json", // Establece el tipo de contenido apropiado
+      "Content-Type": "application/json",
     },
     body: JSON.stringify(formData),
   })
