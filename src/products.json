@@ -108,5 +108,19 @@
     "stock": 25,
     "status": true,
     "category": "Sincategoria"
+  },
+  {
+    "id": "zxr7iajwc",
+    "title": "PRODUCTO AGREGADO CON POST7",
+    "description": "PRODUCTO AGREGADO CON POST7",
+    "price": 1234,
+    "thumbnail": [
+      "Imagen1",
+      "Imagen2"
+    ],
+    "code": "asdb2323asdasddddddsss",
+    "stock": 5,
+    "status": true,
+    "category": "PRODUCTO NUEVO2"
   }
 ]

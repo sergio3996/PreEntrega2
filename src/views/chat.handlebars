@@ -1,0 +1,16 @@
+<div class="container" style="display: flex; justify-content:space-evenly">
+  <article style="width: 400px; height: fit-content;"><h2>Envia tu mensaje</h2>
+    <form id="addMessage">
+      <label for="user">Usuario</label>
+      <input type="text" name="user" />
+      <label for="message">Mensaje</label>
+      <input type="text" name="message" />
+      <button type="submit">Enviar</button>
+    </form>
+  </article>
+
+  <div id="messages" style="width: 500px;"></div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/chat.js"></script>

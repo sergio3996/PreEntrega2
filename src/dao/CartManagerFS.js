@@ -75,7 +75,3 @@ class CartManager {
 }
 
 export default CartManager;
-
-// const newInstance = new CartManager();
-
-// newInstance.getProductsInCart("4llva32mu");

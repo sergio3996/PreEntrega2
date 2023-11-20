@@ -5,7 +5,7 @@ socket.on("products", (data) => {
   data.forEach((element) => {
     document.getElementById(
       "products"
-    ).innerHTML += `<div><p>Id: ${element.id}</p><p>Nombre: ${element.title}</p></div>`;
+    ).innerHTML += `<div><p>Id: ${element._id}</p><p>Nombre: ${element.title}</p></div>`;
   });
 });
 
@@ -24,20 +24,18 @@ addProductform.addEventListener("submit", (e) => {
   formData.stock = addProductform.elements.stock.value;
   formData.status = addProductform.elements.status.value;
   formData.category = addProductform.elements.category.value;
-
-  fetch("/api/products", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(formData),
-  })
-    .then((response) => {
-      console.log(response);
-    })
-    .catch((error) => {
-      console.error(error);
-    });
+  if (
+    !formData.title ||
+    !formData.description ||
+    !formData.price ||
+    !formData.code ||
+    !formData.stock ||
+    !formData.category
+  ) {
+    alert("Debe rellenar todos los campos");
+  } else {
+    socket.emit("new-product", formData);
+  }
 });
 
 const deleteProductForm = document.getElementById("deleteProduct");
@@ -45,17 +43,11 @@ const deleteProductForm = document.getElementById("deleteProduct");
 deleteProductForm.addEventListener("submit", (e) => {
   e.preventDefault();
 
-  const formData = {};
+  let productId = deleteProductForm.elements.id.value;
 
-  formData.id = deleteProductForm.elements.id.value;
-
-  fetch(`/api/products/${formData.id}`, {
-    method: "DELETE",
-  })
-    .then((response) => {
-      console.log(response);
-    })
-    .catch((error) => {
-      console.error(error);
-    });
+  if (productId) {
+    socket.emit("delete-product", productId);
+  } else {
+    alert("Debe llenar el campo");
+  }
 });
