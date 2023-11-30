@@ -1,14 +1,31 @@
 import express from "express";
 import ProductsManager from "../../dao/Products.manager.js";
-// import ProductManager from "../../dao/ProductManagerFS.js";
+import CartsManager from "../../dao/Carts.manager.js";
 
 const router = express.Router();
 
-// const ProductManagerInstance = new ProductManager();
+router.get("/products", async (req, res) => {
+  const { limit = 10, page = 1, sort, category } = req.query;
+  const criteria = {};
+  const options = { limit, page };
+  if (sort) {
+    options.sort = { price: sort };
+  }
+  if (category) {
+    criteria.category = category;
+  }
+  const result = await ProductsManager.getProductsPaginated(
+    criteria,
+    options,
+    sort,
+    category
+  );
+  res.render("products", { title: "Productos", ...result });
+});
 
-router.get("/", async (req, res) => {
-  const products = await ProductsManager.get();
-  res.render("index", { products: products.map((item) => item.toJSON()) });
+router.get("/carts/:cid", async (req, res) => {
+  const products = await CartsManager.getProductsInCart(cid);
+  res.render("cart", { title: "Carrito", products });
 });
 
 router.get("/realtimeproducts", (req, res) => {

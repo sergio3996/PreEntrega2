@@ -1,8 +1,6 @@
 import { Router } from "express";
 import ProductsManager from "../../dao/Products.manager.js";
 
-// import ProductManager from "../../dao/ProductManagerFS.js";
-
 const router = Router();
 
 router.get("/", async (req, res) => {
@@ -43,44 +41,23 @@ router.delete("/:pid", async (req, res) => {
   res.status(204).end();
 });
 
+router.get("/productsPaginated/all", async (req, res) => {
+  const { limit = 10, page = 1, sort, category } = req.query;
+  const criteria = {};
+  const options = { limit, page };
+  if (sort) {
+    options.sort = { price: sort };
+  }
+  if (category) {
+    criteria.category = category;
+  }
+  const result = await ProductsManager.getProductsPaginated(
+    criteria,
+    options,
+    sort,
+    category
+  );
+  res.status(200).json(result);
+});
+
 export default router;
-
-// const ProductManagerInstance = new ProductManager();
-
-// router.get("/", (req, res) => {
-//   const products = ProductManagerInstance.getProducts();
-//   let limit = req.query.limit;
-//   if (limit) {
-//     let productsLimited = products.slice(0, parseInt(limit));
-//     res.status(200).json(productsLimited);
-//   } else {
-//     res.status(200).json(products);
-//   }
-// });
-
-// router.get("/:pid", async (req, res) => {
-//   try {
-//     const product = await ProductManagerInstance.getProductById(req.params.pid);
-//     if (product) {
-//       res.status(200).json(product);
-//     } else {
-//       res.status(404).json({ Error: "Ese producto no existe" });
-//     }
-//   } catch (error) {
-//     console.error(error);
-//   }
-// });
-
-// router.post("/", (req, res) => {
-//   ProductManagerInstance.addProduct(req.body);
-//   res.status(201).send("Producto creado");
-// });
-
-// router.put("/:pid", (req, res) => {
-//   const updatedFields = req.body;
-//   ProductManagerInstance.updateProduct(req.params.pid, updatedFields);
-// });
-
-// router.delete("/:pid", (req, res) => {
-//   ProductManagerInstance.deleteProduct(req.params.pid);
-// });

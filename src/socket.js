@@ -1,10 +1,8 @@
 import { Server } from "socket.io";
 import ProductsManager from "./dao/Products.manager.js";
 import MessagesManager from "./dao/Messages.manager.js";
-// import ProductManager from "./dao/ProductManagerFS";
 
 let io;
-// const ProductManagerInstance = new ProductManager();
 
 export const initSocket = (httpServer) => {
   io = new Server(httpServer);
@@ -42,31 +40,3 @@ export const initSocket = (httpServer) => {
     });
   });
 };
-
-// export const initSocket = (httpServer) => {
-//   io = new Server(httpServer);
-
-//   io.on("connection", (socketClient) => {
-//     console.log("Nuevo cliente conectado");
-
-//     socketClient.emit("products", ProductManagerInstance.getProducts());
-
-//     socketClient.on("new-product", async (newProduct) => {
-//       try {
-//         await ProductManagerInstance.addProduct(newProduct);
-//         io.emit("products", ProductManagerInstance.getProducts());
-//       } catch (error) {
-//         console.error(error);
-//       }
-//     });
-
-//     socketClient.on("delete-product", async (productId) => {
-//       try {
-//         await ProductManagerInstance.deleteProduct(productId);
-//         io.emit("products", ProductManagerInstance.getProducts());
-//       } catch (error) {
-//         console.error(error);
-//       }
-//     });
-//   });
-// };

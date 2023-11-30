@@ -42,4 +42,36 @@ export default class ProductsManager {
       console.error(error.message);
     }
   }
+
+  static async getProductsPaginated(criteria, options, sort, category) {
+    try {
+      const result = await productModel.paginate(criteria, options);
+      let categoryQuery = "";
+      let sortQuery = "";
+      if (category) {
+        categoryQuery = `&category=${category}`;
+      }
+      if (sort) {
+        sortQuery = `&sort=${sort}`;
+      }
+      return {
+        status: "success",
+        payload: result.docs.map((doc) => doc.toJSON()),
+        totalPages: result.totalPages,
+        prevPage: result.prevPage,
+        nextPage: result.nextPage,
+        page: result.page,
+        hasPrevPage: result.hasPrevPage,
+        hasNextPage: result.hasNextPage,
+        prevLink: result.hasPrevPage
+          ? `http://localhost:8080/products?limit=${result.limit}&page=${result.prevPage}${categoryQuery}${sortQuery}`
+          : null,
+        nextLink: result.hasNextPage
+          ? `http://localhost:8080/products?limit=${result.limit}&page=${result.nextPage}${categoryQuery}${sortQuery}`
+          : null,
+      };
+    } catch (error) {
+      console.error(error);
+    }
+  }
 }
