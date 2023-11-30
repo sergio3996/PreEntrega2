@@ -24,8 +24,12 @@ router.get("/products", async (req, res) => {
 });
 
 router.get("/carts/:cid", async (req, res) => {
+  const { cid } = req.params;
   const products = await CartsManager.getProductsInCart(cid);
-  res.render("cart", { title: "Carrito", products });
+  res.render("cart", {
+    title: "Carrito",
+    products: products.map((product) => product.toJSON()),
+  });
 });
 
 router.get("/realtimeproducts", (req, res) => {
