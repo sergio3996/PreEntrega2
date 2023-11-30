@@ -45,6 +45,7 @@ router.get("/productsPaginated/all", async (req, res) => {
   const { limit = 10, page = 1, sort, category } = req.query;
   const criteria = {};
   const options = { limit, page };
+  const url = "http://localhost:8080/productsPaginated/all";
   if (sort) {
     options.sort = { price: sort };
   }
@@ -55,7 +56,8 @@ router.get("/productsPaginated/all", async (req, res) => {
     criteria,
     options,
     sort,
-    category
+    category,
+    url
   );
   res.status(200).json(result);
 });

@@ -8,6 +8,7 @@ router.get("/products", async (req, res) => {
   const { limit = 10, page = 1, sort, category } = req.query;
   const criteria = {};
   const options = { limit, page };
+  const url = "http://localhost:8080/products";
   if (sort) {
     options.sort = { price: sort };
   }
@@ -18,7 +19,8 @@ router.get("/products", async (req, res) => {
     criteria,
     options,
     sort,
-    category
+    category,
+    url
   );
   res.render("products", { title: "Productos", ...result });
 });
