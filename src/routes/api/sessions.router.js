@@ -12,6 +12,16 @@ router.post("/login", async (req, res) => {
       messageError: "Todos los campos son requeridos",
     });
   }
+  if (email === "adminCoder@coder.com" && password === "adminCod3r123") {
+    req.session.user = {
+      first_name: "Coder",
+      last_name: "House",
+      email: "adminCoder@coder.com",
+      age: "&&",
+      role: "admin",
+    };
+    res.redirect("/products");
+  }
   const user = await UsersManager.getOne(email);
   if (!user) {
     return res.render("error", {
@@ -28,7 +38,7 @@ router.post("/login", async (req, res) => {
 
   const { first_name, last_name, age, email: userEmail } = user;
 
-  req.session.user = { first_name, last_name, age, userEmail };
+  req.session.user = { first_name, last_name, age, userEmail, role: "Usuario" };
   res.redirect("/products");
 });
 
