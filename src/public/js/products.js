@@ -40,3 +40,11 @@ statusOpt.addEventListener("change", () => {
     window.location.href = url.toString();
   }
 });
+
+const logoutButton = document.getElementById("logout");
+
+logoutButton.addEventListener("click", () => {
+  fetch("http://localhost:8080/api/sessions/logout")
+    .then(() => (window.location.href = "/"))
+    .catch((error) => console.error(error.message));
+});

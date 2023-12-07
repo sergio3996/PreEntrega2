@@ -16,11 +16,11 @@ router.post("/login", async (req, res) => {
     req.session.user = {
       first_name: "Coder",
       last_name: "House",
-      email: "adminCoder@coder.com",
+      userEmail: "adminCoder@coder.com",
       age: "&&",
       role: "admin",
     };
-    res.redirect("/products");
+    return res.redirect("/products");
   }
   const user = await UsersManager.getOne(email);
   if (!user) {
@@ -75,6 +75,19 @@ router.get("/me", (req, res) => {
     return res.status(401).json({ message: "No estas autenticado" });
   }
   res.status(200).json(req.session.user);
+});
+
+router.get("/logout", (req, res) => {
+  req.session.destroy((error) => {
+    if (error) {
+      return res.render("error", {
+        title: "Error!",
+        messageError: "Ocurrio un error durante el logout",
+      });
+    } else {
+      res.redirect("/");
+    }
+  });
 });
 
 export default router;
