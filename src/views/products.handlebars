@@ -1,4 +1,5 @@
 <h1 style="text-align: center;">Productos</h1>
+<h2>Bienvenido {{user.first_name}} {{user.last_name}}</h2>
 <article>
   <table>
     <tr>
@@ -6,6 +7,7 @@
       <th>Categoria</th>
       <th>Precio</th>
       <th>Stock</th>
+      <th>Estado</th>
       <th></th>
     </tr>
     <tbody>
@@ -13,16 +15,41 @@
         <tr>
           <td>{{this.title}}</td>
           <td>{{this.category}}</td>
-          <td>{{this.price}}</td>
+          <td>USD {{this.price}}</td>
           <td>{{this.stock}}</td>
+          <td>{{this.status}}</td>
           <td><button>Agregar al carrito</button></td>
         </tr>
       {{/each}}
     </tbody>
   </table>
-  <p>Pagina Actual: {{page}}</p>
+  <div style="width: 500px; display:flex;flex-direction:column; gap:5px">
+    <p>Pagina Actual: {{page}}</p>
   <a href="{{prevLink}}" role="button" {{#unless hasPrevPage}}disabled{{/unless}}>Anterior</a>
   <a href="{{nextLink}}" role="button" {{#unless hasNextPage}}disabled{{/unless}}>Siguiente</a>
+  <div style="display: flex;"><select name="categories" id="categories">
+    <option value="" disabled selected>Categorias</option>
+    <option value="all">Todos</option>
+    <option value="category1">Categoria 1</option>
+    <option value="category2">Categoria 2</option>
+  </select>
+  <select name="status" id="status">
+    <option value="" disabled selected>Estado</option>
+    <option value="all">Todos</option>
+    <option value="true">Disponible</option>
+    <option value="false">No Disponible</option>
+  </select>
+  <select name="sort" id="sort">
+    <option value="" disabled selected>Orden por precio</option>
+    <option value="unordered">Sin orden</option>
+    <option value="asc">ASC</option>
+    <option value="desc">DESC</option>
+  </select></div>
+  
+  
+  </div>
+  
+  
 </article>
 
 <script src="/js/products.js"></script>
