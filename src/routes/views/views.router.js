@@ -5,10 +5,11 @@ import CartsManager from "../../dao/Carts.manager.js";
 const router = express.Router();
 
 router.get("/products", async (req, res) => {
-  if (!req.session.user) {
+  if (!req.user) {
     return res.render("error", {
       title: "Error!",
       messageError: "Debes iniciar sesion para ver los productos!",
+      page: "/",
     });
   }
 
@@ -69,7 +70,7 @@ router.get("/products", async (req, res) => {
   res.render("products", {
     title: "Productos",
     ...result,
-    user: req.session.user,
+    user: req.user._id === "adminId" ? req.user : req.user.toJSON(),
   });
 });
 
@@ -91,15 +92,14 @@ router.get("/chat", (req, res) => {
 });
 
 router.get("/", (req, res) => {
-  if (!req.session.user) {
-    res.render("login", { title: "Login" });
-  } else {
-    res.redirect("/products");
+  if (!req.user) {
+    return res.render("login", { title: "Login" });
   }
+  res.redirect("/products");
 });
 
 router.get("/register", (req, res) => {
-  if (!req.session.user) {
+  if (!req.user) {
     res.render("register", { title: "Registro" });
   } else {
     res.redirect("/products");
@@ -107,11 +107,31 @@ router.get("/register", (req, res) => {
 });
 
 router.get("/profile", (req, res) => {
-  if (!req.session.user) {
-    res.redirect("/");
-  } else {
-    res.render("profile", { title: "Perfil", user: req.session.user });
+  if (!req.user) {
+    return res.redirect("/");
   }
+  res.render("profile", {
+    title: "Perfil",
+    user: req.user._id === "adminId" ? req.user : req.user.toJSON(),
+  });
+});
+
+router.get("/faillogin", (req, res) => {
+  res.render("error", {
+    title: "Login error",
+    messageError:
+      "Ha habido un error al intentar iniciar sesion, revise las credenciales.",
+    page: "/",
+  });
+});
+
+router.get("/failregister", (req, res) => {
+  res.render("error", {
+    title: "Registro error",
+    messageError:
+      "Ha habido un error al intentar registrarse, revise las credenciales.",
+    page: "/register",
+  });
 });
 
 export default router;

@@ -8,6 +8,8 @@ import sessionsRouter from "./routes/api/sessions.router.js";
 import { __dirname } from "./utils.js";
 import viewsRouter from "./routes/views/views.router.js";
 import { URI } from "./db/mongodb.js";
+import passport from "passport";
+import initializePassport from "./config/passport.config.js";
 
 const app = express();
 
@@ -29,16 +31,20 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/public"));
 
+app.engine("handlebars", handlebars.engine());
+app.set("views", __dirname + "/views");
+app.set("view engine", "handlebars");
+
+initializePassport();
+app.use(passport.initialize());
+app.use(passport.session());
+
 //Middleware de control de errores
 app.use((error, req, res, next) => {
   const message = `Ha ocurrido un error desconocido: ${error.message}`;
   console.error(message);
   res.status(500).json({ message });
 });
-
-app.engine("handlebars", handlebars.engine());
-app.set("views", __dirname + "/views");
-app.set("view engine", "handlebars");
 
 app.use("/", viewsRouter);
 app.use("/api/products", apiProductsRouter);
