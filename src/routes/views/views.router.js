@@ -1,78 +1,85 @@
 import express from "express";
 import ProductsManager from "../../dao/Products.manager.js";
 import CartsManager from "../../dao/Carts.manager.js";
+import passport from "passport";
 
 const router = express.Router();
 
-router.get("/products", async (req, res) => {
-  if (!req.user) {
-    return res.render("error", {
-      title: "Error!",
-      messageError: "Debes iniciar sesion para ver los productos!",
-      page: "/",
-    });
-  }
+router.get(
+  "/products",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    // if (!req.user) {
+    //   return res.render("error", {
+    //     title: "Error!",
+    //     messageError: "Debes iniciar sesion para ver los productos!",
+    //     page: "/",
+    //   });
+    // }
 
-  const { limit = 10, page = 1, sort, category, status } = req.query;
-  const criteria = {};
-  const options = { limit, page };
-  const url = "http://localhost:8080/products";
+    const { limit = 10, page = 1, sort, category, status } = req.query;
+    const criteria = {};
+    const options = { limit, page };
+    const url = "http://localhost:8080/products";
 
-  const pageNumber = parseInt(page);
-  const limitNumber = parseInt(limit);
+    const pageNumber = parseInt(page);
+    const limitNumber = parseInt(limit);
 
-  if (
-    isNaN(pageNumber) ||
-    isNaN(limitNumber) ||
-    pageNumber < 1 ||
-    limitNumber < 1
-  ) {
-    return res.status(400).json({ error: "Parametros de busqueda invalidos." });
-  }
-
-  if (sort) {
-    options.sort = { price: sort };
-  }
-
-  if (category) {
-    criteria.category = category;
-  }
-
-  if (status) {
-    if (status === "false" || status === "true") {
-      let statusQuery;
-      if (status === "true") {
-        statusQuery = true;
-      } else {
-        statusQuery = false;
-      }
-      criteria.status = statusQuery;
-    } else {
+    if (
+      isNaN(pageNumber) ||
+      isNaN(limitNumber) ||
+      pageNumber < 1 ||
+      limitNumber < 1
+    ) {
       return res
         .status(400)
         .json({ error: "Parametros de busqueda invalidos." });
     }
+
+    if (sort) {
+      options.sort = { price: sort };
+    }
+
+    if (category) {
+      criteria.category = category;
+    }
+
+    if (status) {
+      if (status === "false" || status === "true") {
+        let statusQuery;
+        if (status === "true") {
+          statusQuery = true;
+        } else {
+          statusQuery = false;
+        }
+        criteria.status = statusQuery;
+      } else {
+        return res
+          .status(400)
+          .json({ error: "Parametros de busqueda invalidos." });
+      }
+    }
+
+    const result = await ProductsManager.getProductsPaginated(
+      criteria,
+      options,
+      sort,
+      category,
+      status,
+      url
+    );
+
+    if (pageNumber < 1 || pageNumber > result.totalPages) {
+      return res.status(400).json({ error: "Esta pagina no existe!" });
+    }
+
+    res.render("products", {
+      title: "Productos",
+      ...result,
+      user: req.user.user,
+    });
   }
-
-  const result = await ProductsManager.getProductsPaginated(
-    criteria,
-    options,
-    sort,
-    category,
-    status,
-    url
-  );
-
-  if (pageNumber < 1 || pageNumber > result.totalPages) {
-    return res.status(400).json({ error: "Esta pagina no existe!" });
-  }
-
-  res.render("products", {
-    title: "Productos",
-    ...result,
-    user: req.user._id === "adminId" ? req.user : req.user.toJSON(),
-  });
-});
+);
 
 router.get("/carts/:cid", async (req, res) => {
   const { cid } = req.params;
@@ -106,15 +113,16 @@ router.get("/register", (req, res) => {
   }
 });
 
-router.get("/profile", (req, res) => {
-  if (!req.user) {
-    return res.redirect("/");
+router.get(
+  "/profile",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    res.render("profile", {
+      title: "Perfil",
+      user: req.user.user,
+    });
   }
-  res.render("profile", {
-    title: "Perfil",
-    user: req.user._id === "adminId" ? req.user : req.user.toJSON(),
-  });
-});
+);
 
 router.get("/faillogin", (req, res) => {
   res.render("error", {

@@ -1,31 +1,32 @@
 import express from "express";
 import handlebars from "express-handlebars";
-import sessions from "express-session";
-import MongoStore from "connect-mongo";
+// import sessions from "express-session";
+// import MongoStore from "connect-mongo";
 import apiProductsRouter from "./routes/api/products.router.js";
 import apiCartsRouter from "./routes/api/carts.router.js";
 import sessionsRouter from "./routes/api/sessions.router.js";
 import { __dirname } from "./utils.js";
 import viewsRouter from "./routes/views/views.router.js";
-import { URI } from "./db/mongodb.js";
+// import { URI } from "./db/mongodb.js";
 import passport from "passport";
 import initializePassport from "./config/passport.config.js";
+import cookieParser from "cookie-parser";
 
 const app = express();
 
-const SESSION_SECRET = "1K;Ow/1xN>s&ykM;@HFF/kEW#]@c!d";
+// const SESSION_SECRET = "1K;Ow/1xN>s&ykM;@HFF/kEW#]@c!d";
 
-app.use(
-  sessions({
-    store: MongoStore.create({
-      mongoUrl: URI,
-      mongoOptions: {},
-    }),
-    secret: SESSION_SECRET,
-    resave: true,
-    saveUninitialized: true,
-  })
-);
+// app.use(
+//   sessions({
+//     store: MongoStore.create({
+//       mongoUrl: URI,
+//       mongoOptions: {},
+//     }),
+//     secret: SESSION_SECRET,
+//     resave: true,
+//     saveUninitialized: true,
+//   })
+// );
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -35,9 +36,10 @@ app.engine("handlebars", handlebars.engine());
 app.set("views", __dirname + "/views");
 app.set("view engine", "handlebars");
 
+app.use(cookieParser());
 initializePassport();
 app.use(passport.initialize());
-app.use(passport.session());
+// app.use(passport.session());
 
 //Middleware de control de errores
 app.use((error, req, res, next) => {
