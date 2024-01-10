@@ -1,6 +1,11 @@
 import { Router } from "express";
 import passport from "passport";
-import { generateToken, isValidPassword, createHash } from "../../utils.js";
+import {
+  generateToken,
+  isValidPassword,
+  createHash,
+  passportCall,
+} from "../../utils.js";
 import UsersManager from "../../dao/Users.manager.js";
 
 const router = Router();
@@ -94,12 +99,9 @@ router.post("/register", async (req, res) => {
   }
 });
 
-// router.get("/me", (req, res) => {
-//   if (!req.session.user) {
-//     return res.status(401).json({ message: "No estas autenticado" });
-//   }
-//   res.status(200).json(req.session.user);
-// });
+router.get("/current", passportCall("jwt"), (req, res) => {
+  res.status(200).json(req.user);
+});
 
 router.get("/logout", (req, res) => {
   res.clearCookie("token").redirect("/");

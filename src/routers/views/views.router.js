@@ -2,13 +2,16 @@ import express from "express";
 import ProductsManager from "../../dao/Products.manager.js";
 import CartsManager from "../../dao/Carts.manager.js";
 import passport from "passport";
+import { authorization, passportCall } from "../../utils.js";
 
 const router = express.Router();
 
 router.get(
   "/products",
-  passport.authenticate("jwt", { session: false }),
+  passportCall("jwt"),
+  authorization("user"),
   async (req, res) => {
+    console.log(req.user);
     // if (!req.user) {
     //   return res.render("error", {
     //     title: "Error!",
@@ -76,7 +79,7 @@ router.get(
     res.render("products", {
       title: "Productos",
       ...result,
-      user: req.user.user,
+      user: req.user,
     });
   }
 );
@@ -119,7 +122,7 @@ router.get(
   (req, res) => {
     res.render("profile", {
       title: "Perfil",
-      user: req.user.user,
+      user: req.user,
     });
   }
 );
