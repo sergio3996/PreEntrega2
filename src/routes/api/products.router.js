@@ -1,16 +1,16 @@
 import { Router } from "express";
-import ProductsManager from "../../dao/Products.manager.js";
+import ProductsController from "../../controllers/products.controller.js";
 
 const router = Router();
 
 router.get("/", async (req, res) => {
-  const products = await ProductsManager.get();
+  const products = await ProductsController.get();
   res.status(200).json(products);
 });
 
 router.get("/:pid", async (req, res) => {
   const { pid } = req.params;
-  const product = await ProductsManager.getById(pid);
+  const product = await ProductsController.getById(pid);
   if (product) {
     res.status(200).json(product);
   } else {
@@ -20,7 +20,7 @@ router.get("/:pid", async (req, res) => {
 
 router.post("/", async (req, res) => {
   const { body } = req;
-  const product = await ProductsManager.create(body);
+  const product = await ProductsController.create(body);
   if (product) {
     res.status(201).json(product);
   } else {
@@ -31,13 +31,13 @@ router.post("/", async (req, res) => {
 router.put("/:pid", async (req, res) => {
   const { pid } = req.params;
   const updatedFields = req.body;
-  await ProductsManager.updateById(pid, updatedFields);
+  await ProductsController.updateById(pid, updatedFields);
   res.status(204).end();
 });
 
 router.delete("/:pid", async (req, res) => {
   const { pid } = req.params;
-  await ProductsManager.deleteById(pid);
+  await ProductsController.deleteById(pid);
   res.status(204).end();
 });
 
@@ -77,7 +77,7 @@ router.get("/productsPaginated/all", async (req, res) => {
         .json({ error: "Parametros de busqueda invalidos." });
     }
   }
-  const result = await ProductsManager.getProductsPaginated(
+  const result = await ProductsController.getProductsPaginated(
     criteria,
     options,
     sort,

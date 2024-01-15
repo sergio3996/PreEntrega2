@@ -1,6 +1,6 @@
-import messageModel from "./models/message.model.js";
+import messageModel from "../dao/models/message.model.js";
 
-export default class MessagesManager {
+export default class MessagesController {
   static get() {
     return messageModel.find();
   }

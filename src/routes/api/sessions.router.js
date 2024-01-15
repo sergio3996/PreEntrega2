@@ -6,21 +6,22 @@ import {
   createHash,
   passportCall,
 } from "../../utils.js";
-import UsersManager from "../../dao/Users.manager.js";
+import UsersController from "../../controllers/users.controller.js";
+import config from "../../config/config.js";
 
 const router = Router();
 
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
-  if (email === "adminCoder@coder.com" && password === "adminCod3r123") {
+  if (email === config.adminEmail && password === config.adminPassword) {
     const user = {
       _id: "adminId",
       first_name: "Coder",
       last_name: "House",
       email,
       age: "&&",
-      password: "adminCod3r123",
+      password: config.adminPassword,
       role: "admin",
     };
     const token = generateToken(user);
@@ -31,7 +32,7 @@ router.post("/login", async (req, res) => {
       })
       .redirect("/products");
   }
-  const user = await UsersManager.getOne(email);
+  const user = await UsersController.getOne(email);
   if (!user) {
     return res.render("error", {
       title: "Error!",
@@ -66,7 +67,7 @@ router.post("/register", async (req, res) => {
     });
   }
 
-  const user = await UsersManager.getOne(email);
+  const user = await UsersController.getOne(email);
   if (user) {
     return res.render("error", {
       title: "Error!",
@@ -86,7 +87,7 @@ router.post("/register", async (req, res) => {
   };
 
   try {
-    const user = await UsersManager.create(newUser);
+    const user = await UsersController.create(newUser);
     const token = generateToken(user);
     return res
       .cookie("token", token, {

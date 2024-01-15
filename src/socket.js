@@ -1,6 +1,6 @@
 import { Server } from "socket.io";
-import ProductsManager from "./dao/Products.manager.js";
-import MessagesManager from "./dao/Messages.manager.js";
+import ProductsController from "./controllers/products.controller.js";
+import MessagesController from "./controllers/messages.controller.js";
 
 let io;
 
@@ -10,12 +10,12 @@ export const initSocket = (httpServer) => {
   io.on("connection", async (socketClient) => {
     console.log("Nuevo cliente conectado");
 
-    socketClient.emit("products", await ProductsManager.get());
+    socketClient.emit("products", await ProductsController.get());
 
     socketClient.on("new-product", async (newProduct) => {
       try {
-        await ProductsManager.create(newProduct);
-        const products = await ProductsManager.get();
+        await ProductsController.create(newProduct);
+        const products = await ProductsController.get();
         io.emit("products", products);
       } catch (error) {
         console.error(error);
@@ -24,19 +24,19 @@ export const initSocket = (httpServer) => {
 
     socketClient.on("delete-product", async (productId) => {
       try {
-        await ProductsManager.deleteById(productId);
-        const products = await ProductsManager.get();
+        await ProductsController.deleteById(productId);
+        const products = await ProductsController.get();
         io.emit("products", products);
       } catch (error) {
         console.error(error);
       }
     });
 
-    socketClient.emit("messages", await MessagesManager.get());
+    socketClient.emit("messages", await MessagesController.get());
 
     socketClient.on("new-message", async (newMessage) => {
-      await MessagesManager.add(newMessage);
-      io.emit("messages", await MessagesManager.get());
+      await MessagesController.add(newMessage);
+      io.emit("messages", await MessagesController.get());
     });
   });
 };

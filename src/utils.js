@@ -3,6 +3,7 @@ import { dirname } from "path";
 import bcrypt from "bcrypt";
 import passport from "passport";
 import jwt from "jsonwebtoken";
+import config from "./config/config.js";
 
 const __filename = fileURLToPath(import.meta.url);
 export const __dirname = dirname(__filename);
@@ -13,7 +14,7 @@ export const createHash = (password) =>
 export const isValidPassword = (user, password) =>
   bcrypt.compareSync(password, user.password);
 
-const PRIVATE_KEY = "CoderSecret";
+const PRIVATE_KEY = config.jwtSecret;
 
 export const generateToken = (user) => {
   const token = jwt.sign({ user }, PRIVATE_KEY, { expiresIn: "24h" });
@@ -44,13 +45,3 @@ export const authorization = (role) => {
     next();
   };
 };
-// export const authToken = (req, res, next) => {
-//   const authHeader = req.headers.authorization;
-//   if (!authHeader) return res.status(401).send({ error: "Not authenticated" });
-//   const token = authHeader.split(" ")[1];
-//   jwt.verify(token, PRIVATE_KEY, (error, credentials) => {
-//     if (error) return res.status(403).send({ error: "not authorized" });
-//     req.user = credentials.user;
-//     next();
-//   });
-// };

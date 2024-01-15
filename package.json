@@ -1,13 +1,13 @@
 {
   "type": "module",
-  "name": "autenticacion-verificacion",
+  "name": "reestructura-servidor",
   "version": "1.0.0",
   "description": "",
   "main": "src/server",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node .",
-    "dev": "nodemon ."
+    "dev": "nodemon --exec \"node -r dotenv/config\" ."
   },
   "author": "",
   "license": "ISC",
@@ -28,6 +28,7 @@
     "socket.io": "^4.7.2"
   },
   "devDependencies": {
+    "dotenv": "^16.3.1",
     "nodemon": "^3.0.1"
   }
 }

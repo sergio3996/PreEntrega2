@@ -1,10 +1,8 @@
 import passport from "passport";
-// import { createHash, isValidPassword } from "../utils.js";
-import UsersManager from "../dao/Users.manager.js";
 import userModel from "../dao/models/user.model.js";
-// import { Strategy as LocalStrategy } from "passport-local";
 import GitHubStrategy from "passport-github2";
 import jwt from "passport-jwt";
+import config from "./config.js";
 
 const cookieExtractor = (req) => {
   let token = null;
@@ -49,7 +47,7 @@ const initializePassport = () => {
 
   const jwtOptions = {
     jwtFromRequest: ExtractJWT.fromExtractors([cookieExtractor]),
-    secretOrKey: "CoderSecret",
+    secretOrKey: config.jwtSecret,
   };
   passport.use(
     "jwt",
@@ -61,92 +59,6 @@ const initializePassport = () => {
       }
     })
   );
-
-  const registerOpts = {
-    passReqToCallback: true,
-    usernameField: "email",
-  };
-
-  // passport.use(
-  //   "register",
-  //   new LocalStrategy(registerOpts, async (req, email, password, done) => {
-  //     const { first_name, last_name, age } = req.body;
-
-  //     if (!first_name || !last_name) {
-  //       return done(new Error("Todos los campos excepto edad son requerido"));
-  //     }
-
-  //     const user = await UsersManager.getOne(email);
-  //     if (user) {
-  //       return done(new Error("Ya existe un usuario con esas credenciales"));
-  //     }
-
-  //     let passwordHashed = createHash(password);
-
-  //     let newUser = {
-  //       first_name,
-  //       last_name,
-  //       email,
-  //       age,
-  //       password: passwordHashed,
-  //     };
-
-  //     try {
-  //       const user = await UsersManager.create(newUser);
-  //       done(null, user);
-  //     } catch (error) {
-  //       console.error(error.message);
-  //     }
-  //   })
-  // );
-
-  // passport.use(
-  //   "login",
-  //   new LocalStrategy(
-  //     { usernameField: "email" },
-  //     async (email, password, done) => {
-  //       if (email === "adminCoder@coder.com" && password === "adminCod3r123") {
-  //         const user = {
-  //           _id: "adminId",
-  //           first_name: "Coder",
-  //           last_name: "House",
-  //           email,
-  //           age: "&&",
-  //           role: "admin",
-  //         };
-  //         return done(null, user);
-  //       }
-  //       const user = await UsersManager.getOne(email);
-  //       if (!user) {
-  //         return done(new Error("Email o Contraseña invalidos"));
-  //       }
-  //       if (!isValidPassword(user, password)) {
-  //         return done(new Error("Email o Contraseña invalidos"));
-  //       }
-  //       done(null, user);
-  //     }
-  //   )
-  // );
-
-  // passport.deserializeUser(async (uid, done) => {
-  //   if (uid === "adminId") {
-  //     const user = {
-  //       _id: "adminId",
-  //       first_name: "Coder",
-  //       last_name: "House",
-  //       email: "adminCoder@coder.com",
-  //       age: "&&",
-  //       role: "admin",
-  //     };
-  //     return done(null, user);
-  //   }
-  //   const user = await userModel.findById(uid);
-  //   done(null, user);
-  // });
-
-  // passport.serializeUser(async (user, done) => {
-  //   done(null, user._id);
-  // });
 };
 
 export default initializePassport;

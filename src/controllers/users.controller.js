@@ -1,6 +1,6 @@
-import userModel from "./models/user.model.js";
+import userModel from "../dao/models/user.model.js";
 
-export default class UsersManager {
+export default class UsersController {
   static getOne(email) {
     return userModel.findOne({ email });
   }

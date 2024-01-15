@@ -1,5 +1,6 @@
-import cartModel from "./models/cart.model.js";
-export default class CartsManager {
+import cartModel from "../dao/models/cart.model.js";
+
+export default class CartsController {
   static get() {
     return cartModel.find();
   }
