@@ -1,95 +1,55 @@
-import express from "express";
-import ProductsController from "../../controllers/products.controller.js";
-import CartsController from "../../controllers/carts.controller.js";
+import { Router } from "express";
 import { authorization, passportCall } from "../../utils.js";
+import ProductService from "../../services/product.service.js";
+import CartService from "../../services/cart.service.js";
 
-const router = express.Router();
+const router = Router();
 
 router.get("/products", passportCall("jwt"), async (req, res) => {
-  if (!req.user) {
-    return res.render("error", {
+  const { limit = 10, page = 1, sort, category, status } = req.query;
+  const url = "http://localhost:8080/products";
+  try {
+    const result = await ProductService.getProductsPaginated(
+      limit,
+      page,
+      sort,
+      category,
+      status,
+      url
+    );
+    res.render("products", {
+      title: "Productos",
+      ...result,
+      user: req.user,
+    });
+  } catch (error) {
+    res.render("error", {
       title: "Error!",
-      messageError: "Debes iniciar sesion para ver los productos!",
-      page: "/",
+      messageError: error.message,
+      page: "/products",
     });
   }
-
-  const { limit = 10, page = 1, sort, category, status } = req.query;
-  const criteria = {};
-  const options = { limit, page };
-  const url = "http://localhost:8080/products";
-
-  const pageNumber = parseInt(page);
-  const limitNumber = parseInt(limit);
-
-  if (
-    isNaN(pageNumber) ||
-    isNaN(limitNumber) ||
-    pageNumber < 1 ||
-    limitNumber < 1
-  ) {
-    return res.status(400).json({ error: "Parametros de busqueda invalidos." });
-  }
-
-  if (sort) {
-    options.sort = { price: sort };
-  }
-
-  if (category) {
-    criteria.category = category;
-  }
-
-  if (status) {
-    if (status === "false" || status === "true") {
-      let statusQuery;
-      if (status === "true") {
-        statusQuery = true;
-      } else {
-        statusQuery = false;
-      }
-      criteria.status = statusQuery;
-    } else {
-      return res
-        .status(400)
-        .json({ error: "Parametros de busqueda invalidos." });
-    }
-  }
-
-  const result = await ProductsController.getProductsPaginated(
-    criteria,
-    options,
-    sort,
-    category,
-    status,
-    url
-  );
-
-  if (pageNumber < 1 || pageNumber > result.totalPages) {
-    return res.status(400).json({ error: "Esta pagina no existe!" });
-  }
-
-  res.render("products", {
-    title: "Productos",
-    ...result,
-    user: req.user,
-  });
 });
 
 router.get("/carts/:cid", async (req, res) => {
   const { cid } = req.params;
-  const products = await CartsController.getProductsInCart(cid);
-  res.render("cart", {
-    title: "Carrito",
-    products: products.map((product) => product.toJSON()),
-  });
+  try {
+    const products = await CartService.getCartProducts(cid);
+    res.render("cart", {
+      title: "Carrito",
+      products: products.map((product) => product.toJSON()),
+    });
+  } catch (error) {
+    res.render("error", {
+      title: "Error!",
+      messageError: error.message,
+      page: "/products",
+    });
+  }
 });
 
 router.get("/realtimeproducts", (req, res) => {
   res.render("realTimeProducts", {});
-});
-
-router.get("/chat", (req, res) => {
-  res.render("chat", {});
 });
 
 router.get("/", (req, res) => {
@@ -114,22 +74,8 @@ router.get("/profile", passportCall("jwt"), (req, res) => {
   });
 });
 
-router.get("/faillogin", (req, res) => {
-  res.render("error", {
-    title: "Login error",
-    messageError:
-      "Ha habido un error al intentar iniciar sesion, revise las credenciales.",
-    page: "/",
-  });
-});
-
-router.get("/failregister", (req, res) => {
-  res.render("error", {
-    title: "Registro error",
-    messageError:
-      "Ha habido un error al intentar registrarse, revise las credenciales.",
-    page: "/register",
-  });
+router.get("/chat", passportCall("jwt"), authorization("user"), (req, res) => {
+  res.render("chat", {});
 });
 
 export default router;

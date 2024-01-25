@@ -44,7 +44,7 @@ statusOpt.addEventListener("change", () => {
 const logoutButton = document.getElementById("logout");
 
 logoutButton.addEventListener("click", () => {
-  fetch("http://localhost:8080/api/sessions/logout")
+  fetch("http://localhost:8080/api/auth/logout")
     .then(() => (window.location.href = "/"))
     .catch((error) => console.error(error.message));
 });

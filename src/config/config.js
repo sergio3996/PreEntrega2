@@ -4,4 +4,5 @@ export default {
   jwtSecret: process.env.JWT_SECRET,
   adminEmail: process.env.ADMIN_EMAIL,
   adminPassword: process.env.ADMIN_PASSWORD,
+  persistence: process.env.PERSISTENCE,
 };

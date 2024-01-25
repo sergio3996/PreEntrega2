@@ -1,6 +1,6 @@
 <div style="display: flex; justify-content:center; align-items:center">
   <article style="width: 500px;">
-    <form action="/api/sessions/login" method="post">
+    <form action="/api/auth" method="post">
       <label for="email">Email</label>
       <input type="email" name="email" />
       <label for="password">Contraseña</label>
@@ -8,7 +8,7 @@
       <button type="submit">Ingresar</button>
     </form>
     <div>
-      <a href="/api/sessions/github" role="button"><svg
+      <a href="/api/auth/github" role="button"><svg
           xmlns="http://www.w3.org/2000/svg"
           x="0px"
           y="0px"

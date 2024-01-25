@@ -1,10 +1,11 @@
 import express from "express";
 import handlebars from "express-handlebars";
-import apiProductsRouter from "./routes/api/products.router.js";
-import apiCartsRouter from "./routes/api/carts.router.js";
-import sessionsRouter from "./routes/api/sessions.router.js";
-import { __dirname } from "./utils.js";
+import apiUsersRouter from "./routes/api/user.router.js";
+import apiAuthRouter from "./routes/api/auth.router.js";
+import apiCartRouter from "./routes/api/cart.router.js";
+import apiProductRouter from "./routes/api/product.router.js";
 import viewsRouter from "./routes/views/views.router.js";
+import { __dirname } from "./utils.js";
 import passport from "passport";
 import initializePassport from "./config/passport.config.js";
 import cookieParser from "cookie-parser";
@@ -30,9 +31,10 @@ app.use((error, req, res, next) => {
   res.status(500).json({ message });
 });
 
+app.use("/api/users", apiUsersRouter);
+app.use("/api/auth", apiAuthRouter);
+app.use("/api/carts", apiCartRouter);
+app.use("/api/products", apiProductRouter);
 app.use("/", viewsRouter);
-app.use("/api/products", apiProductsRouter);
-app.use("/api/carts", apiCartsRouter);
-app.use("/api/sessions", sessionsRouter);
 
 export default app;
