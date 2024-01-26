@@ -4,6 +4,7 @@ import apiUsersRouter from "./routes/api/user.router.js";
 import apiAuthRouter from "./routes/api/auth.router.js";
 import apiCartRouter from "./routes/api/cart.router.js";
 import apiProductRouter from "./routes/api/product.router.js";
+import apiEmailRouter from "./routes/api/email.router.js";
 import viewsRouter from "./routes/views/views.router.js";
 import { __dirname } from "./utils.js";
 import passport from "passport";
@@ -35,6 +36,7 @@ app.use("/api/users", apiUsersRouter);
 app.use("/api/auth", apiAuthRouter);
 app.use("/api/carts", apiCartRouter);
 app.use("/api/products", apiProductRouter);
+app.use("/api/email", apiEmailRouter);
 app.use("/", viewsRouter);
 
 export default app;
