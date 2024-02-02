@@ -1,5 +1,5 @@
 import UserDao from "../dao/user.mongodb.dao.js";
-import { createHash } from "../utils.js";
+import { createHash } from "../utils/utils.js";
 import CartService from "./cart.service.js";
 
 export default class UserService {

@@ -1,6 +1,6 @@
 import config from "../config/config.js";
 import UserMongoDbDao from "../dao/user.mongodb.dao.js";
-import { generateToken, isValidPassword } from "../utils.js";
+import { generateToken, isValidPassword } from "../utils/utils.js";
 
 export default class AuthService {
   static async login(data) {

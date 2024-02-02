@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { authorization, passportCall } from "../../utils.js";
+import { authorization, passportCall } from "../../utils/utils.js";
 import ProductService from "../../services/product.service.js";
 import CartService from "../../services/cart.service.js";
 

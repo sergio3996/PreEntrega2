@@ -9,7 +9,7 @@ import {
   removeFromCart,
   updateCartItemQuantity,
 } from "../../controllers/cart.controller.js";
-import { authorization, passportCall } from "../../utils.js";
+import { authorization, passportCall } from "../../utils/utils.js";
 
 const router = Router();
 

@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { logout, login, current } from "../../controllers/auth.controller.js";
 import passport from "passport";
-import { generateToken, passportCall } from "../../utils.js";
+import { generateToken, passportCall } from "../../utils/utils.js";
 
 const router = Router();
 

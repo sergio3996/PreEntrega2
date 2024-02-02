@@ -34,17 +34,17 @@ export const getProductById = async (req, res) => {
     const product = await ProductService.getById(pid);
     return res.status(200).json(product);
   } catch (error) {
-    return res.status(500).json(error.message);
+    console.log(error);
   }
 };
 
-export const createProduct = async (req, res) => {
+export const createProduct = async (req, res, next) => {
   const { body } = req;
   try {
     const product = await ProductService.create(body);
     return res.status(201).json(product);
   } catch (error) {
-    return res.status(500).json("No se ha podido crear el producto");
+    next(error);
   }
 };
 

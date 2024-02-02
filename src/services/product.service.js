@@ -1,5 +1,8 @@
 import ProductDao from "../dao/product.mongodb.dao.js";
-import { generateProduct } from "../utils.js";
+import { generatorProductError } from "../utils/CauseMessageError.js";
+import CustomError from "../utils/CustomError.js";
+import EnumsError from "../utils/EnumsError.js";
+import { generateProduct } from "../utils/utils.js";
 
 export default class ProductService {
   static async get() {
@@ -19,6 +22,22 @@ export default class ProductService {
   }
 
   static create(data) {
+    const { title, description, price, code, stock, category } = data;
+    if (!title || !description || !price || !code || !stock || !category) {
+      CustomError.create({
+        name: "Invalid data product",
+        cause: generatorProductError({
+          title,
+          description,
+          price,
+          code,
+          stock,
+          category,
+        }),
+        message: "Ocurrio un error al intentar crear el producto 😓",
+        code: EnumsError.BAD_REQUEST_ERROR,
+      });
+    }
     return ProductDao.create(data);
   }
 
