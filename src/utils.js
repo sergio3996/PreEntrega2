@@ -4,6 +4,7 @@ import bcrypt from "bcrypt";
 import passport from "passport";
 import jwt from "jsonwebtoken";
 import config from "./config/config.js";
+import { faker } from "@faker-js/faker";
 
 const __filename = fileURLToPath(import.meta.url);
 export const __dirname = dirname(__filename);
@@ -43,5 +44,18 @@ export const authorization = (role) => {
       return res.status(403).send({ error: "No Permissions" });
     }
     next();
+  };
+};
+
+export const generateProduct = () => {
+  return {
+    title: faker.commerce.productName(),
+    description: faker.commerce.productDescription(),
+    price: faker.commerce.price(),
+    thumbnail: [faker.image.url()],
+    code: faker.commerce.isbn(),
+    stock: faker.number.int({ min: 5, max: 50 }),
+    category: faker.commerce.department(),
+    status: faker.datatype.boolean(),
   };
 };

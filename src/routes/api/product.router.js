@@ -2,6 +2,7 @@ import { Router } from "express";
 import {
   createProduct,
   deleteProduct,
+  getMockingProducts,
   getProductById,
   getProducts,
   getProductsPaginated,
@@ -12,6 +13,7 @@ import { authorization, passportCall } from "../../utils.js";
 const router = Router();
 
 router.get("/", getProducts);
+router.get("/mockingproducts", getMockingProducts);
 router.get("/productsPaginated/all", getProductsPaginated);
 router.get("/:pid", getProductById);
 router.post("/", passportCall("jwt"), authorization("admin"), createProduct);

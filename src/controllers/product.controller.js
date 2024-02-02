@@ -68,3 +68,12 @@ export const deleteProduct = async (req, res) => {
     return res.status(500).json(error.message);
   }
 };
+
+export const getMockingProducts = async (req, res) => {
+  try {
+    const result = await ProductService.generateMockingProducts();
+    return res.status(200).json(result);
+  } catch (error) {
+    return res.status(500).json(error.message);
+  }
+};

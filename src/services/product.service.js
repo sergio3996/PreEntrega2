@@ -1,4 +1,5 @@
 import ProductDao from "../dao/product.mongodb.dao.js";
+import { generateProduct } from "../utils.js";
 
 export default class ProductService {
   static async get() {
@@ -104,5 +105,13 @@ export default class ProductService {
         ? `${url}?limit=${result.limit}&page=${result.nextPage}${categoryQuery}${sortQuery}${statusQuery}`
         : null,
     };
+  }
+
+  static generateMockingProducts() {
+    let products = [];
+    for (let index = 0; index < 100; index++) {
+      products.push(generateProduct());
+    }
+    return products;
   }
 }
