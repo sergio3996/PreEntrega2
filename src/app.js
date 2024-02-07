@@ -6,14 +6,17 @@ import apiCartRouter from "./routes/api/cart.router.js";
 import apiProductRouter from "./routes/api/product.router.js";
 import apiEmailRouter from "./routes/api/email.router.js";
 import viewsRouter from "./routes/views/views.router.js";
+import loggerTest from "./routes/loggerTest.router.js";
 import { __dirname } from "./utils/utils.js";
 import passport from "passport";
 import initializePassport from "./config/passport.config.js";
 import cookieParser from "cookie-parser";
 import errorHandlerMiddleware from "./middlewares/error-handler.middleware.js";
+import { addLogger } from "./config/logger.js";
 
 const app = express();
 
+app.use(addLogger);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/public"));
@@ -32,6 +35,7 @@ app.use("/api/carts", apiCartRouter);
 app.use("/api/products", apiProductRouter);
 app.use("/api/email", apiEmailRouter);
 app.use("/", viewsRouter);
+app.use("/loggerTest", loggerTest);
 
 app.use(errorHandlerMiddleware);
 

@@ -11,4 +11,5 @@ export default {
     emailUser: process.env.EMAIL_USER,
     emailPassword: process.env.EMAIL_PASSWORD,
   },
+  env: process.env.NODE_ENV || "development",
 };
