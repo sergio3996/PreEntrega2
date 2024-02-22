@@ -1,4 +1,5 @@
 import CartDao from "../dao/cart.mongodb.dao.js";
+import ProductMongoDbDao from "../dao/product.mongodb.dao.js";
 import ProductService from "./product.service.js";
 import TicketService from "./ticket.service.js";
 
@@ -26,10 +27,19 @@ export default class CartService {
     return CartDao.create();
   }
 
-  static async addToCart(cid, pid) {
+  static async addToCart(cid, pid, user) {
     const cart = await CartDao.getById(cid);
     if (!cart) {
       throw new Error("Carrito no encontrado 😥");
+    }
+    const product = await ProductMongoDbDao.getById(pid);
+    if (!product) {
+      throw new Error("Producto no encontrado");
+    }
+    if (product.owner === user.email) {
+      throw new Error(
+        "No puede agregar a su carrito un producto que le pertenece"
+      );
     }
     const productFound = cart.products.find((elem) => elem.product == pid);
     if (!productFound) {

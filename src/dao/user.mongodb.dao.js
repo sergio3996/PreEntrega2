@@ -1,6 +1,9 @@
 import userModel from "./models/user.model.js";
 
 export default class UserMongoDbDao {
+  static getById(uid) {
+    return userModel.findById(uid);
+  }
   static getByEmail(email) {
     return userModel.findOne({ email: email }).populate("cart");
   }

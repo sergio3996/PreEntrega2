@@ -37,4 +37,17 @@ export default class UserService {
       console.error(error.message);
     }
   }
+
+  static async changeRole(uid) {
+    const user = await UserDao.getById(uid);
+    if (!user) {
+      throw new Error("No se ha encontrado un usuario con ese id");
+    }
+    if (user.role === "user") {
+      user.role = "premium";
+    } else if (user.role === "premium") {
+      user.role = "user";
+    }
+    return await UserDao.update(user.email, user);
+  }
 }

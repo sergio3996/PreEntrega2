@@ -9,7 +9,11 @@ import {
   removeFromCart,
   updateCartItemQuantity,
 } from "../../controllers/cart.controller.js";
-import { authorization, passportCall } from "../../utils/utils.js";
+import {
+  authorization,
+  handlePolicies,
+  passportCall,
+} from "../../utils/utils.js";
 
 const router = Router();
 
@@ -25,7 +29,7 @@ router.get("/:cid", getCartProducts);
 router.post(
   "/:cid/products/:pid",
   passportCall("jwt"),
-  authorization("user"),
+  handlePolicies(["PUBLIC"]),
   addToCart
 );
 router.delete("/:cid/products/:pid", removeFromCart);

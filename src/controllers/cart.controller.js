@@ -23,7 +23,7 @@ export const getCartProducts = async (req, res) => {
 export const addToCart = async (req, res) => {
   const { cid, pid } = req.params;
   try {
-    await CartService.addToCart(cid, pid);
+    await CartService.addToCart(cid, pid, req.user);
     return res.status(200).json("Producto agregado al carrito");
   } catch (error) {
     return res.status(500).json(error.message);

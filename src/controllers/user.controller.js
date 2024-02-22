@@ -14,3 +14,13 @@ export const createUser = async (req, res) => {
     return res.status(500).json(error.message);
   }
 };
+
+export const changeUserRole = async (req, res) => {
+  const { uid } = req.params;
+  try {
+    await UserService.changeRole(uid);
+    return res.status(204).end();
+  } catch (error) {
+    return res.status(500).json(error.message);
+  }
+};
