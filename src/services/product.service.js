@@ -54,12 +54,12 @@ export default class ProductService {
       throw new Error("Producto no encontrado");
     }
     if (user.role === "admin") {
-      await ProductDao.delete(pid);
+      return await ProductDao.delete(pid);
     }
     if (user.role === "premium" && user.email != product.owner) {
       throw new Error("No tienes permiso para eliminar este producto");
     } else {
-      await ProductDao.delete(pid);
+      return await ProductDao.delete(pid);
     }
   }
 

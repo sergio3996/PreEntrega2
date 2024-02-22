@@ -75,7 +75,6 @@ export const updateProduct = async (req, res) => {
 export const deleteProduct = async (req, res) => {
   const { pid } = req.params;
   const { user } = req;
-  console.log(user);
   try {
     await ProductService.deleteById(pid, user);
     return res.status(204).end();
