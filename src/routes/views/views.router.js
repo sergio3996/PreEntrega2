@@ -78,4 +78,16 @@ router.get("/chat", passportCall("jwt"), authorization("user"), (req, res) => {
   res.render("chat", {});
 });
 
+router.get("/forgot-password", (req, res) => {
+  res.render("forgot-password", {
+    title: "Recuperar contraseña",
+  });
+});
+
+router.get("/reset-password/:token", (req, res) => {
+  res.render("reset-password", {
+    title: "Restaurar contraseña",
+  });
+});
+
 export default router;

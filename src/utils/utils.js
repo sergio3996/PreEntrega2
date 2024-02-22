@@ -22,6 +22,11 @@ export const generateToken = (user) => {
   return token;
 };
 
+export const generateRecoveryToken = (email) => {
+  const token = jwt.sign({ email }, PRIVATE_KEY, { expiresIn: "1h" });
+  return token;
+};
+
 export const passportCall = (strategy) => {
   return async (req, res, next) => {
     passport.authenticate(strategy, (err, user, info) => {
@@ -58,4 +63,14 @@ export const generateProduct = () => {
     category: faker.commerce.department(),
     status: faker.datatype.boolean(),
   };
+};
+
+export const handlePolicies = (policies) => (req, res, next) => {
+  if (policies[0] === "PUBLIC") return next();
+  if (!req.user)
+    return res.status(403).json({ status: "error", message: "Unauthorized" });
+  const { role } = req.user;
+  if (!policies.includes(role.toUpperCase()))
+    return res.status(403).json({ status: "error", message: "Unauthorized" });
+  next();
 };

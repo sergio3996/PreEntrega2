@@ -1,5 +1,11 @@
 import { Router } from "express";
-import { logout, login, current } from "../../controllers/auth.controller.js";
+import {
+  logout,
+  login,
+  current,
+  forgotPassword,
+  resetPassword,
+} from "../../controllers/auth.controller.js";
 import passport from "passport";
 import { generateToken, passportCall } from "../../utils/utils.js";
 
@@ -29,5 +35,9 @@ router.get(
 );
 
 router.get("/current", passportCall("jwt"), current);
+
+router.post("/forgot-password", forgotPassword);
+
+router.post("/reset-password/:token", resetPassword);
 
 export default router;

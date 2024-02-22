@@ -1,6 +1,12 @@
 import config from "../config/config.js";
 import UserMongoDbDao from "../dao/user.mongodb.dao.js";
-import { generateToken, isValidPassword } from "../utils/utils.js";
+import {
+  createHash,
+  generateRecoveryToken,
+  generateToken,
+  isValidPassword,
+} from "../utils/utils.js";
+import jwt from "jsonwebtoken";
 
 export default class AuthService {
   static async login(data) {
@@ -28,5 +34,31 @@ export default class AuthService {
     }
     const token = generateToken(user);
     return token;
+  }
+
+  static async forgotPassword(email) {
+    const user = await UserMongoDbDao.getByEmail(email);
+    if (!user) {
+      throw new Error("No existe un usuario con ese email");
+    }
+    const token = generateRecoveryToken(email);
+    return token;
+  }
+
+  static async resetPassword(token, password) {
+    let email;
+    jwt.verify(token, config.jwtSecret, (err, decoded) => {
+      if (err) {
+        throw new Error("Token inválido o expirado");
+      }
+      email = decoded.email;
+    });
+    const user = await UserMongoDbDao.getByEmail(email);
+    if (isValidPassword(user, password)) {
+      throw new Error("No se puede colocar la misma contraseña");
+    }
+    let passwordHashed = createHash(password);
+    user.password = passwordHashed;
+    await UserMongoDbDao.update(email, user);
   }
 }

@@ -1,10 +1,10 @@
 import UserDao from "../dao/user.mongodb.dao.js";
-import { createHash } from "../utils/utils.js";
+import { createHash, generateToken } from "../utils/utils.js";
 import CartService from "./cart.service.js";
 
 export default class UserService {
   static async create(data) {
-    const { first_name, last_name, age, email, password } = data;
+    const { first_name, last_name, age, email, password, role } = data;
 
     if (!first_name || !last_name) {
       throw new Error("Todos los campos excepto edad son requerido");
@@ -26,11 +26,13 @@ export default class UserService {
       age,
       password: passwordHashed,
       cart: cart._id,
+      role: role,
     };
 
     try {
       const user = await UserDao.create(newUser);
-      return user;
+      const token = generateToken(newUser);
+      return token;
     } catch (error) {
       console.error(error.message);
     }

@@ -48,10 +48,18 @@ export default class ProductService {
     }
   }
 
-  static async deleteById(pid) {
-    const product = await ProductDao.delete(pid);
+  static async deleteById(pid, user) {
+    const product = await ProductDao.getById(pid);
     if (!product) {
-      throw new Error("Error al eliminar el producto");
+      throw new Error("Producto no encontrado");
+    }
+    if (user.role === "admin") {
+      await ProductDao.delete(pid);
+    }
+    if (user.role === "premium" && user.email != product.owner) {
+      throw new Error("No tienes permiso para eliminar este producto");
+    } else {
+      await ProductDao.delete(pid);
     }
   }
 

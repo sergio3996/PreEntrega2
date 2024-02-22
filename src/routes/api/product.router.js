@@ -8,20 +8,29 @@ import {
   getProductsPaginated,
   updateProduct,
 } from "../../controllers/product.controller.js";
-import { authorization, passportCall } from "../../utils/utils.js";
+import {
+  authorization,
+  handlePolicies,
+  passportCall,
+} from "../../utils/utils.js";
 
 const router = Router();
 
 router.get("/", getProducts);
-router.get("/mockingproducts", getMockingProducts);
+router.get("/mockingproducts", handlePolicies(["PUBLIC"]), getMockingProducts);
 router.get("/productsPaginated/all", getProductsPaginated);
 router.get("/:pid", getProductById);
 router.post("/", createProduct);
-router.put("/:pid", passportCall("jwt"), authorization("admin"), updateProduct);
+router.put(
+  "/:pid",
+  passportCall("jwt"),
+  handlePolicies(["PREMIUM", "ADMIN"]),
+  updateProduct
+);
 router.delete(
   "/:pid",
   passportCall("jwt"),
-  authorization("admin"),
+  handlePolicies(["PREMIUM", "ADMIN"]),
   deleteProduct
 );
 

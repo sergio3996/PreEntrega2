@@ -1,3 +1,5 @@
+import config from "../config/config.js";
+import jwt from "jsonwebtoken";
 import ProductService from "../services/product.service.js";
 
 export const getProducts = async (req, res) => {
@@ -40,8 +42,19 @@ export const getProductById = async (req, res) => {
 
 export const createProduct = async (req, res, next) => {
   const { body } = req;
+  let newProduct = {};
+  if (req.cookies.token) {
+    jwt.verify(req.cookies.token, config.jwtSecret, (err, decoded) => {
+      if (err) {
+        console.error("Token inválido o expirado");
+      }
+      newProduct = { ...body, owner: decoded.user.email };
+    });
+  } else {
+    newProduct = { ...body };
+  }
   try {
-    const product = await ProductService.create(body);
+    const product = await ProductService.create(newProduct);
     return res.status(201).json(product);
   } catch (error) {
     next(error);
@@ -61,8 +74,10 @@ export const updateProduct = async (req, res) => {
 
 export const deleteProduct = async (req, res) => {
   const { pid } = req.params;
+  const { user } = req;
+  console.log(user);
   try {
-    await ProductService.deleteById(pid);
+    await ProductService.deleteById(pid, user);
     return res.status(204).end();
   } catch (error) {
     return res.status(500).json(error.message);
