@@ -1,0 +1,21 @@
+paths:
+  /api/users/:
+    post:
+      summary: Creacion de usuario
+      tags:
+        - Users
+      responses:
+        201:
+          description: Usuario creado con exito
+        500:
+          description: Error al crear el usuario
+  /api/users/premium/{uid}:
+    get:
+      summary: Cambio de rol a un usuario indicado por ID
+      tags:
+        - Users
+      responses:
+        204:
+          description: Rol editado correctamente
+        500:
+          description: Error al editar el rol del usuario

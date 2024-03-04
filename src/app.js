@@ -13,6 +13,8 @@ import initializePassport from "./config/passport.config.js";
 import cookieParser from "cookie-parser";
 import errorHandlerMiddleware from "./middlewares/error-handler.middleware.js";
 import { addLogger } from "./config/logger.js";
+import swaggerJSDoc from "swagger-jsdoc";
+import swaggerUi from "swagger-ui-express";
 
 const app = express();
 
@@ -26,6 +28,20 @@ app.set("views", __dirname + "/.." + "/views");
 app.set("view engine", "handlebars");
 
 app.use(cookieParser());
+
+const swaggerOpts = {
+  definition: {
+    openapi: "3.0.0",
+    info: {
+      title: "Coder House",
+      description: "BackEnd Curso CoderHouse, Ecommerce",
+    },
+  },
+  apis: [__dirname + "/.." + "/docs/**/*.yaml"],
+};
+const specs = swaggerJSDoc(swaggerOpts);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
+
 initializePassport();
 app.use(passport.initialize());
 

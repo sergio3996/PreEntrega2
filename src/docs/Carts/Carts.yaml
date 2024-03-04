@@ -1,0 +1,73 @@
+paths:
+  /api/carts/:
+    post:
+      summary: Creacion de carrito
+      tags:
+        - Carts
+      responses:
+        201:
+          description: Carrito creado con exito
+    get:
+      summary: Obtener todos los carritos
+      tags:
+        - Carts
+      responses:
+        200:
+          description: Devuelve todos los carritos
+  /api/carts/{cid}/purchase:
+    get:
+      summary: Realizar una compra
+      tags:
+        - Carts
+      responses:
+        200:
+          description: Compra realizada con exito
+        500:
+          description: Error al realizar la compra
+  /api/carts/{cid}:
+    get:
+      summary: Obtener los productos de un carrito
+      tags:
+        - Carts
+      responses:
+        200:
+          description: Devuelve todos los productos del carrito
+        500:
+          description: Error al buscar los productos en el carrito
+    delete:
+      summary: Eliminar todos los productos de un carrito
+      tags:
+        - Carts
+      responses:
+        204:
+          description: Productos eliminados con exito
+        500:
+          description: Hubo un error al intentar eliminar los productos
+  /api/carts/{cid}/products/{pid}:
+    delete:
+      summary: Eliminar un producto de un carrito
+      tags:
+        - Carts
+      responses:
+        204:
+          description: Producto eliminado con exito
+        500:
+          description: Hubo un error al intentar eliminar el producto
+    put:
+      summary: Actualizar la cantidad de un producto en el carrito
+      tags:
+        - Carts
+      responses:
+        204:
+          description: Producto actualizado con exito
+        500:
+          description: Hubo un error al intentar actualizar el producto
+    post:
+      summary: Agregar un producto a un carrito
+      tags:
+        - Carts
+      responses:
+        200:
+          description: Producto agregado con exito
+        500:
+          description: Hubo un error al agregar el producto al carrito
