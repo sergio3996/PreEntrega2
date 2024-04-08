@@ -22,7 +22,8 @@ const initializePassport = () => {
       {
         clientID: "Iv1.4f3de2a1f73e231c",
         clientSecret: "aa9347807285d5a7c3681f859fdc78270d6f0e44",
-        callbackURL: "./api/auth/githubcallback",
+        callbackURL:
+          "https://pithy-station-production.up.railway.app/api/auth/githubcallback",
       },
       async (accessToken, refreshToken, profile, done) => {
         try {
