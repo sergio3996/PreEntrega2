@@ -1,4 +1,3 @@
-import config from "../config/config.js";
 import jwt from "jsonwebtoken";
 import ProductService from "../services/product.service.js";
 
@@ -44,7 +43,7 @@ export const createProduct = async (req, res, next) => {
   const { body } = req;
   let newProduct = {};
   if (req.cookies.token) {
-    jwt.verify(req.cookies.token, config.jwtSecret, (err, decoded) => {
+    jwt.verify(req.cookies.token, process.env.JWT_SECRET, (err, decoded) => {
       if (err) {
         console.error("Token inválido o expirado");
       }

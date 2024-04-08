@@ -3,7 +3,6 @@ import { dirname } from "path";
 import bcrypt from "bcrypt";
 import passport from "passport";
 import jwt from "jsonwebtoken";
-import config from "../config/config.js";
 import { faker } from "@faker-js/faker";
 
 const __filename = fileURLToPath(import.meta.url);

@@ -2,7 +2,6 @@ import passport from "passport";
 import userModel from "../dao/models/user.model.js";
 import GitHubStrategy from "passport-github2";
 import jwt from "passport-jwt";
-import config from "./config.js";
 import CartService from "../services/cart.service.js";
 
 const cookieExtractor = (req) => {
@@ -51,19 +50,21 @@ const initializePassport = () => {
     )
   );
 
-  const jwtOptions = {
-    jwtFromRequest: ExtractJWT.fromExtractors([cookieExtractor]),
-    secretOrKey: process.env.JWT_SECRET,
-  };
   passport.use(
     "jwt",
-    new JWTStrategy(jwtOptions, async (jwt_payload, done) => {
-      try {
-        return done(null, jwt_payload.user);
-      } catch (error) {
-        return done(error);
+    new JWTStrategy(
+      {
+        jwtFromRequest: ExtractJWT.fromExtractors([cookieExtractor]),
+        secretOrKey: process.env.JWT_SECRET,
+      },
+      async (jwt_payload, done) => {
+        try {
+          return done(null, jwt_payload.user);
+        } catch (error) {
+          return done(error);
+        }
       }
-    })
+    )
   );
 };
 

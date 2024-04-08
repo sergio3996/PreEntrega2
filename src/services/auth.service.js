@@ -1,4 +1,3 @@
-import config from "../config/config.js";
 import UserMongoDbDao from "../dao/user.mongodb.dao.js";
 import UserDTO from "../dto/user.dto.js";
 import {
@@ -54,7 +53,7 @@ export default class AuthService {
 
   static async resetPassword(token, password) {
     let email;
-    jwt.verify(token, config.jwtSecret, (err, decoded) => {
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
       if (err) {
         throw new Error("Token inválido o expirado");
       }

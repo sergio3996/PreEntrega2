@@ -1,9 +1,5 @@
 import { Router } from "express";
-import {
-  authorization,
-  handlePolicies,
-  passportCall,
-} from "../../utils/utils.js";
+import { handlePolicies, passportCall } from "../../utils/utils.js";
 import ProductService from "../../services/product.service.js";
 import CartService from "../../services/cart.service.js";
 import UserService from "../../services/user.service.js";
