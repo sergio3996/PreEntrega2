@@ -3,6 +3,7 @@ import { generatorProductError } from "../utils/CauseMessageError.js";
 import CustomError from "../utils/CustomError.js";
 import EnumsError from "../utils/EnumsError.js";
 import { generateProduct } from "../utils/utils.js";
+import emailService from "./email.service.js";
 
 export default class ProductService {
   static async get() {
@@ -53,14 +54,17 @@ export default class ProductService {
     if (!product) {
       throw new Error("Producto no encontrado");
     }
-    if (user.role === "admin") {
-      return await ProductDao.delete(pid);
-    }
     if (user.role === "premium" && user.email != product.owner) {
       throw new Error("No tienes permiso para eliminar este producto");
-    } else {
-      return await ProductDao.delete(pid);
     }
+    if (user.role === "premium" && user.email == product.owner) {
+      await emailService.sendMail(
+        user.email,
+        "Producto Eliminado",
+        `<p>Se ha eliminado el producto con el nombre ${product.title}</p>`
+      );
+    }
+    return await ProductDao.delete(pid);
   }
 
   static async getProductsPaginated(limit, page, sort, category, status, url) {

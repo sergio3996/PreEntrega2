@@ -12,6 +12,7 @@ const userSchema = new mongoose.Schema(
       ref: "Cart",
     },
     role: { type: String, default: "user" },
+    last_connection: { type: String },
   },
   { timestamps: true }
 );

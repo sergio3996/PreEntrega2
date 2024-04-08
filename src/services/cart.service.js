@@ -41,7 +41,7 @@ export default class CartService {
         "No puede agregar a su carrito un producto que le pertenece"
       );
     }
-    const productFound = cart.products.find((elem) => elem.product == pid);
+    const productFound = cart.products.find((elem) => elem.product._id == pid);
     if (!productFound) {
       cart.products.push({ product: pid });
       await CartDao.updateById(cid, cart);
@@ -65,7 +65,6 @@ export default class CartService {
     if (!cart) {
       throw new Error("Carrito no encontrado 😥");
     }
-    cart.products.forEach((elem) => console.log(elem.product._id));
     const productFound = cart.products.find((elem) => elem.product._id == pid);
     if (productFound) {
       const newProductList = cart.products.filter(
@@ -120,12 +119,13 @@ export default class CartService {
         purchaser: user,
       };
 
-      TicketService.create(newTicket);
+      await TicketService.create(newTicket);
 
       cart.products = cart.products.filter(
         (item) => item.product.stock < item.quantity
       );
       await CartDao.updateById(cid, cart);
+
       if (cart.products.length > 0) {
         return cart.products;
       }

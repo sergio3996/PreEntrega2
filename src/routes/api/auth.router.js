@@ -8,6 +8,7 @@ import {
 } from "../../controllers/auth.controller.js";
 import passport from "passport";
 import { generateToken, passportCall } from "../../utils/utils.js";
+import UserDTO from "../../dto/user.dto.js";
 
 const router = Router();
 
@@ -24,11 +25,11 @@ router.get(
   "/githubcallback",
   passport.authenticate("github", { session: false, failureRedirect: "/" }),
   async (req, res) => {
-    const token = generateToken(req.user);
+    const token = generateToken(new UserDTO(req.user));
     return res
       .cookie("token", token, {
         maxAge: 60 * 60 * 1000,
-        httpOnly: true,
+        httpOnly: false,
       })
       .redirect("/products");
   }

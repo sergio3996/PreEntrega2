@@ -1,6 +1,7 @@
 import { Server } from "socket.io";
 import { getMessages, newMessage } from "./controllers/message.controller.js";
 import ProductService from "./services/product.service.js";
+import { ConversationListInstance } from "twilio/lib/rest/conversations/v1/conversation.js";
 
 let io;
 
@@ -22,9 +23,11 @@ export const initSocket = (httpServer) => {
       }
     });
 
-    socketClient.on("delete-product", async (productId) => {
+    socketClient.on("delete-product", async (data) => {
+      console.log(data);
+      const { productId, userData } = data;
       try {
-        await ProductService.deleteById(productId);
+        await ProductService.deleteById(productId, userData);
         const products = await ProductService.get();
         io.emit("products", products);
       } catch (error) {

@@ -5,6 +5,7 @@
       <th>Producto</th>
       <th>Precio</th>
       <th>Stock</th>
+      <th>Quantity</th>
     </tr>
     <tbody>
       {{#each products}}
@@ -12,8 +13,17 @@
           <td>{{this.product.title}}</td>
           <td>{{this.product.price}}</td>
           <td>{{this.product.stock}}</td>
+          <td>{{this.quantity}}</td>
+          <td><button
+              onclick="removeFromCart('{{this.product._id}}')"
+            >Quitar</button></td>
         </tr>
       {{/each}}
     </tbody>
   </table>
+  <a href="/products" role="button">Volver</a>
+  <button id="purchase" style="width: 200px;">Confirmar Compra</a>
+
 </article>
+
+<script src="/js/cart.js"></script>

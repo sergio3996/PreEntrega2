@@ -16,11 +16,16 @@ import {
 
 const router = Router();
 
-router.get("/", getProducts);
+router.get("/", passportCall("jwt"), getProducts);
 router.get("/mockingproducts", handlePolicies(["PUBLIC"]), getMockingProducts);
-router.get("/productsPaginated/all", getProductsPaginated);
-router.get("/:pid", getProductById);
-router.post("/", createProduct);
+router.get("/productsPaginated/all", passportCall("jwt"), getProductsPaginated);
+router.get("/:pid", passportCall("jwt"), getProductById);
+router.post(
+  "/",
+  passportCall("jwt"),
+  handlePolicies(["PREMIUM", "ADMIN"]),
+  createProduct
+);
 router.put(
   "/:pid",
   passportCall("jwt"),

@@ -1,0 +1,25 @@
+<table>
+  <tr>
+    <th>Nombre</th>
+    <th>Email</th>
+    <th>Rol</th>
+    <th></th>
+    <th></th>
+  </tr>
+  <tbody>
+    {{#each users}}
+      <tr>
+        <td>{{this.fullname}}</td>
+        <td>{{this.email}}</td>
+        <td>{{this.role}}</td>
+        <td><button class="role-button" data-role-id="{{this._id}}">Cambiar Rol</button></td>
+        <td><button
+            class="delete-button"
+            data-delete-id="{{this._id}}"
+          >Eliminar</button></td>
+      </tr>
+    {{/each}}
+  </tbody>
+</table>
+
+<script src="/js/admin.js"></script>

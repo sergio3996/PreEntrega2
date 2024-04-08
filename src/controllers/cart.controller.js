@@ -62,20 +62,19 @@ export const updateCartItemQuantity = async (req, res) => {
 };
 
 export const completePurchase = async (req, res) => {
-  const { email } = req.user;
-  const { cid } = req.params;
+  const { email, cart } = req.user;
   try {
-    const products = await CartService.completePurchase(cid, email);
+    const products = await CartService.completePurchase(cart, email);
     if (products) {
       return res.status(200).json(
-        `Compra realizada con exito. Productos que quedaron fuera de la compra por falta de stock: ${products.map(
+        `Compra realizada con exito, revise su email. Productos que quedaron fuera de la compra por falta de stock: ${products.map(
           (item) => {
             return item.product.title;
           }
         )} `
       );
     }
-    return res.status(200).json("Compra realizada con exito");
+    return res.status(200).json("Compra realizada con exito, revise su email.");
   } catch (error) {
     res.status(500).json(error.message);
   }

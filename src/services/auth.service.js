@@ -1,5 +1,6 @@
 import config from "../config/config.js";
 import UserMongoDbDao from "../dao/user.mongodb.dao.js";
+import UserDTO from "../dto/user.dto.js";
 import {
   createHash,
   generateRecoveryToken,
@@ -22,9 +23,10 @@ export default class AuthService {
         password: config.adminPassword,
         role: "admin",
       };
-      const token = generateToken(user);
+      const token = generateToken(new UserDTO(user));
       return token;
     }
+
     const user = await UserMongoDbDao.getByEmail(email);
     if (!user) {
       throw new Error("Email o Contraseña invalidos");
@@ -32,7 +34,9 @@ export default class AuthService {
     if (!isValidPassword(user, password)) {
       throw new Error("Email o Contraseña invalidos");
     }
-    const token = generateToken(user);
+    user.last_connection = new Date();
+    user.save();
+    const token = generateToken(new UserDTO(user));
     return token;
   }
 

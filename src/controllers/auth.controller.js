@@ -9,7 +9,7 @@ export const login = async (req, res) => {
       .status(200)
       .cookie("token", token, {
         maxAge: 60 * 60 * 1000,
-        httpOnly: true,
+        httpOnly: false,
       })
       .redirect("/products");
   } catch (error) {
@@ -49,7 +49,7 @@ export const resetPassword = async (req, res) => {
   const { password } = req.body;
   try {
     await AuthService.resetPassword(token, password);
-    res.status(200).json({ message: "Contraseña cambiada con exito" });
+    res.status(200).json("Contraseña cambiada con exito");
   } catch (error) {
     res.status(500).json(error.message);
   }

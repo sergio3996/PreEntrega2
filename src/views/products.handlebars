@@ -1,7 +1,9 @@
 <h1 style="text-align: center;">Productos</h1>
-<h2>Bienvenido {{user.first_name}} {{user.last_name}}</h2>
+<h2>Bienvenido {{user.fullname}}</h2>
 <h4>Role: {{user.role}}{{#unless user.role}}Usuario{{/unless}}</h4>
-<a href="/profile">Perfil</a>
+<a href="/profile" role="button">Perfil</a>
+<a href="/cart" role="button">Carrito</a>
+<a href="/admin" role="button">Admin Panel</a>
 <button style="width: 150px;" id="logout">Logout</button>
 <article>
   <table>
@@ -21,7 +23,7 @@
           <td>USD {{this.price}}</td>
           <td>{{this.stock}}</td>
           <td>{{this.status}}</td>
-          <td><button>Agregar al carrito</button></td>
+          <td><button onclick="addToCart('{{this._id}}')">Agregar al carrito</button></td>
         </tr>
       {{/each}}
     </tbody>

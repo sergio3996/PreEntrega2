@@ -9,31 +9,42 @@ import {
   removeFromCart,
   updateCartItemQuantity,
 } from "../../controllers/cart.controller.js";
-import {
-  authorization,
-  handlePolicies,
-  passportCall,
-} from "../../utils/utils.js";
+import { handlePolicies, passportCall } from "../../utils/utils.js";
 
 const router = Router();
 
-router.get("/", getCarts);
+router.get("/", passportCall("jwt"), handlePolicies(["ADMIN"]), getCarts);
 router.post("/", createCart);
 router.get(
-  "/:cid/purchase",
+  "/purchase",
   passportCall("jwt"),
-  authorization("user"),
+  handlePolicies(["PREMIUM", "USER"]),
   completePurchase
 );
 router.get("/:cid", getCartProducts);
 router.post(
   "/:cid/products/:pid",
   passportCall("jwt"),
-  handlePolicies(["PUBLIC"]),
+  handlePolicies(["PREMIUM", "USER"]),
   addToCart
 );
-router.delete("/:cid/products/:pid", removeFromCart);
-router.delete("/:cid", clearCart);
-router.put("/:cid/products/:pid", updateCartItemQuantity);
+router.delete(
+  "/:cid/products/:pid",
+  passportCall("jwt"),
+  handlePolicies(["PREMIUM", "USER"]),
+  removeFromCart
+);
+router.delete(
+  "/:cid",
+  passportCall("jwt"),
+  handlePolicies(["PREMIUM", "USER"]),
+  clearCart
+);
+router.put(
+  "/:cid/products/:pid",
+  passportCall("jwt"),
+  handlePolicies(["PREMIUM", "USER"]),
+  updateCartItemQuantity
+);
 
 export default router;

@@ -3,6 +3,7 @@ import userModel from "../dao/models/user.model.js";
 import GitHubStrategy from "passport-github2";
 import jwt from "passport-jwt";
 import config from "./config.js";
+import CartService from "../services/cart.service.js";
 
 const cookieExtractor = (req) => {
   let token = null;
@@ -28,15 +29,20 @@ const initializePassport = () => {
         try {
           const user = await userModel.findOne({ email: profile._json.email });
           if (!user) {
+            const cart = await CartService.create();
             let newUser = {
               first_name: profile._json.name,
               last_name: "",
               email: profile._json.email,
               password: "",
+              last_connection: new Date(),
+              cart: cart._id,
             };
             let user = await userModel.create(newUser);
             return done(null, user);
           }
+          user.last_connection = new Date();
+          user.save();
           done(null, user);
         } catch (error) {
           return done(error);

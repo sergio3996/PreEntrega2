@@ -67,10 +67,9 @@ export const generateProduct = () => {
 
 export const handlePolicies = (policies) => (req, res, next) => {
   if (policies[0] === "PUBLIC") return next();
-  if (!req.user)
-    return res.status(403).json({ status: "error", message: "Unauthorized" });
+  if (!req.user) return res.status(403).json("Unauthorized");
   const { role } = req.user;
   if (!policies.includes(role.toUpperCase()))
-    return res.status(403).json({ status: "error", message: "Unauthorized" });
+    return res.status(403).json("Unauthorized");
   next();
 };
