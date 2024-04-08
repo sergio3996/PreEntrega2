@@ -13,7 +13,7 @@ const cookieExtractor = (req) => {
   return token;
 };
 
-const JWTStrategy = passport.Strategy;
+const JWTStrategy = jwt.Strategy;
 const ExtractJWT = jwt.ExtractJwt;
 
 const initializePassport = () => {
