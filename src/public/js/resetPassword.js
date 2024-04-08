@@ -10,7 +10,7 @@ document.getElementById("resetPassword").addEventListener("submit", (e) => {
     password: password,
   };
 
-  fetch(`http://localhost:8080/api/auth/reset-password/${token}`, {
+  fetch(`./api/auth/reset-password/${token}`, {
     method: "POST",
     body: JSON.stringify(data),
     headers: {

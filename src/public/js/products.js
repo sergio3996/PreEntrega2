@@ -20,12 +20,9 @@ if (token) {
 }
 
 const addToCart = (productId) => {
-  fetch(
-    `http://localhost:8080/api/carts/${userData.cart}/products/${productId}`,
-    {
-      method: "POST",
-    }
-  )
+  fetch(`./api/carts/${userData.cart}/products/${productId}`, {
+    method: "POST",
+  })
     .then((res) => res.json())
     .then((res) => alert(res))
     .catch((error) => console.error("Error:", error));
@@ -77,7 +74,7 @@ statusOpt.addEventListener("change", () => {
 const logoutButton = document.getElementById("logout");
 
 logoutButton.addEventListener("click", () => {
-  fetch("http://localhost:8080/api/auth/logout")
+  fetch("./api/auth/logout")
     .then(() => (window.location.href = "/"))
     .catch((error) => console.error(error.message));
 });

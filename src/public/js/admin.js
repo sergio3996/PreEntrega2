@@ -4,7 +4,7 @@ deleteButtons.forEach((button) => {
   button.addEventListener("click", (e) => {
     const id = e.target.getAttribute("data-delete-id");
 
-    fetch(`http://localhost:8080/api/users/${id}`, {
+    fetch(`./api/users/${id}`, {
       method: "DELETE",
     })
       .then(() => location.reload())
@@ -18,7 +18,7 @@ changeRoleButtons.forEach((button) => {
   button.addEventListener("click", (e) => {
     const id = e.target.getAttribute("data-role-id");
 
-    fetch(`http://localhost:8080/api/users/premium/${id}`, {
+    fetch(`./api/users/premium/${id}`, {
       method: "GET",
     })
       .then(() => location.reload())

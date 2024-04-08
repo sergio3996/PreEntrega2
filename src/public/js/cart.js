@@ -20,12 +20,9 @@ if (token) {
 }
 
 const removeFromCart = (productId) => {
-  fetch(
-    `http://localhost:8080/api/carts/${userData.cart}/products/${productId}`,
-    {
-      method: "DELETE",
-    }
-  )
+  fetch(`./api/carts/${userData.cart}/products/${productId}`, {
+    method: "DELETE",
+  })
     .then(() => location.reload())
     .catch((error) => console.error("Error:", error));
 };
@@ -35,7 +32,7 @@ const purchaseButton = document.getElementById("purchase");
 purchaseButton.addEventListener("click", (e) => {
   e.preventDefault();
 
-  fetch("http://localhost:8080/api/carts/purchase", {
+  fetch("./api/carts/purchase", {
     method: "GET",
   })
     .then((res) => res.json())
