@@ -33,7 +33,7 @@ export const forgotPassword = async (req, res) => {
       email,
       "Recuperacion de contraseña",
       `<p>Has solicitado un restablecimiento de contraseña.</p>
-       <p>Para restablecer tu contraseña, haz clic en este <a href="http://localhost:8080/reset-password/${token}">enlace</a>.</p>`
+       <p>Para restablecer tu contraseña, haz clic en este <a href="https://pithy-station-production.up.railway.app/reset-password/${token}">enlace</a>.</p>`
     );
     res.status(200).json({
       message:
