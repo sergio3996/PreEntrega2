@@ -15,7 +15,7 @@ export const createHash = (password) =>
 export const isValidPassword = (user, password) =>
   bcrypt.compareSync(password, user.password);
 
-const PRIVATE_KEY = config.jwtSecret;
+const PRIVATE_KEY = process.env.JWT_SECRET;
 
 export const generateToken = (user) => {
   const token = jwt.sign({ user }, PRIVATE_KEY, { expiresIn: "24h" });
