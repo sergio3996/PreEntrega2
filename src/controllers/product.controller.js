@@ -12,7 +12,8 @@ export const getProducts = async (req, res) => {
 
 export const getProductsPaginated = async (req, res) => {
   const { limit = 10, page = 1, sort, category, status } = req.query;
-  const url = "http://localhost:8080/api/products/productsPaginated/all";
+  const url =
+    "https://pithy-station-production.up.railway.app/api/products/productsPaginated/all";
 
   try {
     const result = await ProductService.getProductsPaginated(

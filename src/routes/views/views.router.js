@@ -8,7 +8,7 @@ const router = Router();
 
 router.get("/products", passportCall("jwt"), async (req, res) => {
   const { limit = 10, page = 1, sort, category, status } = req.query;
-  const url = "http://localhost:8080/products";
+  const url = "https://pithy-station-production.up.railway.app/products";
   try {
     const result = await ProductService.getProductsPaginated(
       limit,
