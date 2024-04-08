@@ -4,19 +4,19 @@ import config from "../config/config.js";
 class EmailService {
   constructor() {
     this.transport = nodemailer.createTransport({
-      service: config.mail.emailService,
+      service: process.env.EMAIL_SERVICE,
       host: "smtp.gmail.com",
-      port: config.mail.emailPort,
+      port: process.env.EMAIL_PORT,
       auth: {
-        user: config.mail.emailUser,
-        pass: config.mail.emailPassword,
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASSWORD,
       },
     });
   }
 
   sendMail(to, subject, html, attachments = []) {
     return this.transport.sendMail({
-      from: config.emailUser,
+      from: process.env.EMAIL_USER,
       to,
       subject,
       html,

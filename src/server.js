@@ -7,7 +7,7 @@ import config from "./config/config.js";
 await init();
 
 const server = http.createServer(app);
-const PORT = config.port;
+const PORT = process.env.PORT || 8080;
 
 initSocket(server);
 

@@ -13,14 +13,17 @@ export default class AuthService {
   static async login(data) {
     const { email, password } = data;
 
-    if (email === config.adminEmail && password === config.adminPassword) {
+    if (
+      email === process.env.ADMIN_EMAIL &&
+      password === process.env.ADMIN_PASSWORD
+    ) {
       const user = {
         _id: "adminId",
         first_name: "Coder",
         last_name: "House",
         email,
         age: "&&",
-        password: config.adminPassword,
+        password: process.env.ADMIN_PASSWORD,
         role: "admin",
       };
       const token = generateToken(new UserDTO(user));

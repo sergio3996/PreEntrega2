@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import config from "../config/config.js";
 
-export const URI = config.mongodbUri;
+export const URI = process.env.MONGODB_URI;
 
 export const init = async () => {
   try {

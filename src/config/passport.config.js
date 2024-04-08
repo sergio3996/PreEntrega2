@@ -53,7 +53,7 @@ const initializePassport = () => {
 
   const jwtOptions = {
     jwtFromRequest: ExtractJWT.fromExtractors([cookieExtractor]),
-    secretOrKey: config.jwtSecret,
+    secretOrKey: process.env.JWT_SECRET,
   };
   passport.use(
     "jwt",
